@@ -1,0 +1,115 @@
+{% extends 'base/base.html' %}
+
+
+{% block titulo %}
+<title>Personas</title>
+{% endblock %}
+
+{% block contenido %}
+<br>
+
+<div class="col-sm-5 col-md-5">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" id="nombre" name="nombre" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" id="apellido" name="apellido" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>DNI</label>
+        <input type="text" id="dni" name="dni" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="fecha" name="fecha" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Nombre Usuario</label>
+        <input type="text" id="user" name="user" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="pass" name="pass" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Repetir Contraseña</label>
+        <input type="password" id="ispass" name="ispass" class="form-control" required>
+    </div>
+
+    <br>
+</div>
+    <table class="table table-hover">
+		<thead>
+			<th>Nombre</th>
+			<th>Apellido</th>
+			<th>Nombre de Usuario</th>
+            <th>Perfil</th>
+			<th>Fecha de Nacimiento</th>
+			<th>DNI</th>
+			<th>Ciudad</th>
+			<th>Provincia</th>
+			<th></th>
+			<th></th>
+		</thead>
+        {% for usuario in usuarios %}
+
+        <td>{{ usuario.Nombre }}</td>
+        <td>{{ usuario.Apellido }}</td>
+        <td>{{ usuario.NombreUsuario }}</td>
+        <td>{{ usuario.GetPerfil() }}</td>
+        <td>{{ usuario.FechaNacimiento }}</td>
+        <td>{{ usuario.DNI }}</td>
+        <td>{{ usuario.Ciudad }}</td>
+        <td>{{ usuario.Provincia }}</td>
+
+
+        <td></td>
+			<form role="form" action="" method="post" id="botonera" name="botonera">
+				<td style="vertical-align: middle">
+					<input type="hidden" name="idSelect" id="idSelect" value="{{ usuario.ID }}" />
+					<input class="btn btn-success btn-sm" type="submit" value="Modificar" id="modif" name="event" />
+					<input class="btn btn-danger btn-sm" type="submit" value="Eliminar" id="delet" name="event" />
+				</td>
+			</form>
+		</tr>
+        {% endfor %}
+    </table>
+
+
+
+
+
+
+<!--
+<h3>Persona</h3>
+<br>
+
+<form id="formAlta" action="altaPersona" method="POST">
+<fieldset>
+<legend>Nuevo Usuario</legend>
+	<div>
+        <label>Nombre:</label>
+        <input type="text" class="form-control"  name="nombre" id="nombre" required=""/>
+    </div>
+    <div>
+        <label>DNI:</label>
+        <input type="text" name="dni" id="dni" class="form-control"  required=""/>
+    </div>
+    <div>
+        <label>Fecha de Nacimiento:</label>
+        <input type="date" name="fecha" id="fecha" class="form-control"  required=""/>
+    </div>
+    <div>
+        <label>Altura:</label>
+        <input type="text" name="altura" id="altura" class="form-control"  required=""/>
+    </div>
+    <div class="botones" ><input type="submit" name="enviar" id="Enviar" value="Enviar" />
+        <input type="reset" name="borrar" id="borrar" value="Borrar" /></div>
+    <div class="botones" ><a id="Registrarse" href="/">Volver</a></div>
+
+</fieldset>
+</form>
+-->
+{% endblock %}
