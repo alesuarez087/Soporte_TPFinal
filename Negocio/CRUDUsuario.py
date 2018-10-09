@@ -1,5 +1,5 @@
 from Datos.DataCiudad import DataCiudad, DataProvincia
-from Datos.DataUsuario import DataUsuario
+from Datos.DataUsuario import DataUsuario, DataPerfil
 
 class Ciudades:
     def __init__(self):
@@ -22,5 +22,13 @@ class Usuarios:
     def GetUsuarios(self):
         return self.DataUsuario.GetAll()
 
+    def Loguin(self, user, passw):
+        return self.DataUsuario.Loguin(user, passw)
+
+
+class Perfiles:
+
+    def __init__(self):
+        self.DataPerfil = DataPerfil()
     def GetPerfiles(self):
-        return self.DataUsuario.GetPerfiles
+        return self.DataPerfil.GetPerfiles()

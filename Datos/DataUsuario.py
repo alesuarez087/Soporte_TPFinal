@@ -1,26 +1,6 @@
-"""
-    def alta(self, per):
-        try:
-            # con = connector.connect(user="root", password="ale087", host="127.0.0.1", database="python_practica")
-
-            cursor = self.Conn.cursor()
-            caux = "INSERT INTO persona (nombre, fecha_nacimiento, dni, altura) VALUES (%s,%s,%s,%s)"
-            tdatos = (per.nombre, per.fecha, per.dni, per.altura)
-            cursor.execute (caux, tdatos)
-            self.Conn.commit ()
-            cursor.close ()
-            self.CloseConnection ()
-            # self.con.session.add(per)
-            return True
-        except Exception as e:
-            print ("Error al insertar")
-            self.Conn.rollback ()
-            return False
-"""
-
 from Datos.ConnectionMySQL import Connection
 import Datos.DataCiudad
-from datetime import datetime
+
 
 from Datos import Tables
 
@@ -86,24 +66,31 @@ class DataUsuario(Connection):
             usuario.State = Tables.States.Read
             return usuario
 
-    def GetPerfiles(self):
+    def Loguin(self, user, passw):
         cursor = self.Conn.cursor()
-        cursor.execute("select * from perfiles")
+        sql = "select * from usuarios where nombre_usuario = %s and contrasenia = %s"
+        data = (user, passw)
+        cursor.execute(sql, data)
 
-        rows = cursor.fetchall()
+        row = cursor.fetchone ()
         cursor.close()
         self.CloseConnection()
 
-        if (len(rows) == 0):
+        if (len (row) == 0):
             return False
         else:
-            perfiles = []
-            for row in rows:
-                perfil = Tables.Perfil()
-                perfil.ID = row[0]
-                perfil.Nombre = row[1]
-                perfiles.append(perfil)
-            return perfiles
+            usuario = Tables.Usuario ()
+            usuario.ID = row[0]
+            usuario.Nombre = row[1]
+            usuario.Apellido = row[2]
+            usuario.FechaNacimiento = row[3]
+            usuario.DNI = row[4]
+            usuario.IdCiudad = row[5]
+            usuario.IdPerfil = row[6]
+            usuario.NombreUsuario = row[7]
+
+            usuario.State = Tables.States.Read
+            return usuario
 
     def GetPerfil(self, idPerfil):
         cursor = self.Conn.cursor()
@@ -122,3 +109,24 @@ class DataUsuario(Connection):
             perfil.Nombre = row[1]
             perfil.State = Tables.States.Read
             return perfil
+
+class DataPerfil(Connection):
+    def GetPerfiles(self):
+
+        cursor = self.Conn.cursor()
+        cursor.execute("select * from perfiles")
+
+        rows = cursor.fetchall()
+        cursor.close()
+        self.CloseConnection()
+
+        if (len(rows) == 0):
+            return False
+        else:
+            perfiles = []
+            for row in rows:
+                perfil = Tables.Perfil()
+                perfil.ID = row[0]
+                perfil.Nombre = row[1]
+                perfiles.append(perfil)
+            return perfiles

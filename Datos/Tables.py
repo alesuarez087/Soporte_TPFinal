@@ -41,7 +41,7 @@ class Usuario (Entidades):
         return User.GetPerfil (self.IdPerfil).Nombre
 
 
-class Perfil (Entidades):
+class Perfil(Entidades):
     Nombre = None
 
 

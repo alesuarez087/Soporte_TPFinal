@@ -37,7 +37,15 @@
         <label>Repetir Contraseña</label>
         <input type="password" id="ispass" name="ispass" class="form-control" required>
     </div>
-
+    <div form-group>
+        <label>Perfil</label>
+        <select class="form-control">
+            <option value="0">Seleccionar Perfil</option>
+        {% for prof in profiles %}
+        <option value="{{ prof.ID }}">{{ prof.Nombre }}</option>
+        {% endfor %}
+    </select>
+    </div>
     <br>
 </div>
     <table class="table table-hover">

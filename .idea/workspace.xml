@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f915e9b4-6b26-49a5-9c09-83b9e3f221d2" name="Default Changelist" comment="" />
+    <list default="true" id="f915e9b4-6b26-49a5-9c09-83b9e3f221d2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Datos/DataUsuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/Datos/DataUsuario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Datos/Tables.py" beforeDir="false" afterPath="$PROJECT_DIR$/Datos/Tables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaz/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaz/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaz/templates/base/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaz/templates/base/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Interfaz/templates/crudUsuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/Interfaz/templates/crudUsuarios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Negocio/CRUDUsuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/Negocio/CRUDUsuario.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,61 +21,45 @@
     <session id="1253683169">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.2" value="2" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.33" value="1" />
+          <entry key="project.open.time.48" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="3" />
-          <entry key="py" value="12" />
+          <entry key="html" value="5" />
+          <entry key="py" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="3" />
-          <entry key="Python" value="12" />
+          <entry key="HTML" value="5" />
+          <entry key="Python" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="1986" />
-          <entry key="py" value="4976" />
+          <entry key="html" value="3319" />
+          <entry key="py" value="6027" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="1986" />
-          <entry key="Python" value="4976" />
+          <entry key="HTML" value="3319" />
+          <entry key="Python" value="6027" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Datos/Tables.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-                <marker date="1538860297587" expanded="true" signature="93:180" ph="..." />
-                <marker date="1538860297587" expanded="true" signature="199:200" ph="..." />
-                <marker date="1538860297587" expanded="true" signature="199:204" ph="..." />
-                <marker date="1538860297587" expanded="true" signature="260:265" ph="..." />
-                <marker date="1538860297587" expanded="true" signature="260:446" ph="..." />
-                <marker date="1538860297587" expanded="true" signature="860:881" ph="..." />
-                <marker date="1538860297587" expanded="false" signature="906:911" ph="..." />
-                <marker date="1538860297587" expanded="true" signature="978:983" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Datos/ConnectionMySQL.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -76,17 +69,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Datos/DataUsuario.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="47" column="47" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="47" />
+            <state relative-caret-position="238">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
               <folding>
-                <element signature="e#0#702#1" />
-                <element signature="e#704#748#0" expanded="true" />
-                <element signature="e#1635#2274#0" />
-                <element signature="e#2325#2796#0" />
-                <element signature="e#2841#3319#0" />
+                <element signature="e#160#1247#0" />
+                <element signature="e#1283#1997#0" />
+                <marker date="1538938972571" expanded="true" signature="2033:2799" ph="..." />
+                <marker date="1538938972571" expanded="true" signature="3296:3297" ph="..." />
               </folding>
             </state>
           </provider>
@@ -95,13 +87,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Negocio/CRUDUsuario.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="425">
+              <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
-                <marker date="1538843658168" expanded="true" signature="222:227" ph="..." />
-                <marker date="1538843658168" expanded="true" signature="343:400" ph="..." />
-                <marker date="1538843658168" expanded="true" signature="508:555" ph="..." />
+                <marker date="1538938972712" expanded="true" signature="234:239" ph="..." />
+                <marker date="1538938972712" expanded="true" signature="355:412" ph="..." />
+                <marker date="1538938972712" expanded="true" signature="520:567" ph="..." />
+                <marker date="1538938972712" expanded="true" signature="761:805" ph="..." />
               </folding>
             </state>
           </provider>
@@ -110,10 +103,43 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Interfaz/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="449">
+              <caret line="37" column="29" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#58#0" expanded="true" />
+                <marker date="1539095624342" expanded="true" signature="698:809" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Interfaz/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1452">
+              <caret line="217" column="14" selection-start-line="217" selection-start-column="14" selection-end-line="217" selection-end-column="14" />
+              <folding>
+                <element signature="n#src#0;n#img#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#a#0;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#a#0;n#div#2;n#div#0;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#src#0;n#img#0;n#a#0;n#div#3;n#div#0;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Test/BDTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
               <caret line="11" selection-start-line="11" selection-end-line="11" />
               <folding>
-                <element signature="e#0#40#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
+                <marker date="1538924645862" expanded="true" signature="126:129" ph="..." />
               </folding>
             </state>
           </provider>
@@ -122,24 +148,25 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Datos/DataCiudad.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="105" selection-start-line="105" selection-end-line="105" />
+            <state relative-caret-position="17">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
-                <element signature="e#159#736#0" />
-                <element signature="e#793#1429#0" />
-                <element signature="e#2041#2600#0" />
                 <marker date="1538860630811" expanded="true" signature="102:103" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Interfaz/templates/base/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-218">
-              <caret line="38" selection-start-line="38" selection-end-line="38" />
+            <state relative-caret-position="422">
+              <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
+              <folding>
+                <element signature="n#footer#0;n#body#0;n#html#0;n#!!top" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -147,8 +174,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Interfaz/templates/crudUsuarios.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="445">
-              <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
+            <state relative-caret-position="207">
+              <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -169,21 +196,24 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Interfaz/templates/base/base.html" />
         <option value="$PROJECT_DIR$/Interfaz/ajax.html" />
-        <option value="$PROJECT_DIR$/Negocio/CRUDUsuario.py" />
         <option value="$PROJECT_DIR$/Datos/ConnectionMySQL.py" />
-        <option value="$PROJECT_DIR$/Interfaz/__init__.py" />
-        <option value="$PROJECT_DIR$/Datos/Tables.py" />
         <option value="$PROJECT_DIR$/Datos/DataCiudad.py" />
+        <option value="$PROJECT_DIR$/Datos/Tables.py" />
+        <option value="$PROJECT_DIR$/Test/BDTest.py" />
         <option value="$PROJECT_DIR$/Interfaz/templates/crudUsuarios.html" />
+        <option value="$PROJECT_DIR$/Negocio/CRUDUsuario.py" />
         <option value="$PROJECT_DIR$/Datos/DataUsuario.py" />
+        <option value="$PROJECT_DIR$/Interfaz/index.html" />
+        <option value="$PROJECT_DIR$/Interfaz/templates/loca.html" />
+        <option value="$PROJECT_DIR$/Interfaz/__init__.py" />
+        <option value="$PROJECT_DIR$/Interfaz/templates/base/base.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="736" />
-    <option name="y" value="37" />
+    <option name="x" value="907" />
+    <option name="y" value="29" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
@@ -195,6 +225,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -223,17 +254,26 @@
               <item name="Soporte_TPFinal" type="462c0819:PsiDirectoryNode" />
               <item name="Negocio" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Soporte_TPFinal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Soporte_TPFinal" type="462c0819:PsiDirectoryNode" />
+              <item name="Test" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../microblog-2012-version-0.13" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../PycharmProjects/TpFinalSoporte" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\DATOS\GIT\Soporte_TPFinal\Interfaz\templates" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -247,7 +287,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.__init__">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Soporte_TPFinal" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -269,9 +309,44 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Unittests for BDTest.TestPerfiles" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Soporte_TPFinal" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;BDTest.TestPerfiles&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in BDTest.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Soporte_TPFinal" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Test/BDTest.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.__init__" />
+      <item itemvalue="Python tests.Unittests in BDTest.py" />
+      <item itemvalue="Python tests.Unittests for BDTest.TestPerfiles" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.__init__" />
+        <item itemvalue="Python tests.Unittests in BDTest.py" />
+        <item itemvalue="Python tests.Unittests for BDTest.TestPerfiles" />
       </list>
     </recent_temporary>
   </component>
@@ -288,7 +363,39 @@
     </task>
     <servers />
   </component>
-  <component name="TodoView">
+  <component name="TestHistory">
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 11h 55m 51s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_BDTest_TestPerfiles - 2018.10.07 at 11h 56m 07s.xml">
+      <configuration name="Unittests for BDTest.TestPerfiles" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 11h 57m 50s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 01m 51s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 02m 18s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 03m 30s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 03m 39s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 03m 54s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 04m 01s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_BDTest_py - 2018.10.07 at 12h 04m 06s.xml">
+      <configuration name="Unittests in BDTest.py" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -301,12 +408,12 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.108208954" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11247335" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.329718" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -361,6 +468,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/unittest/loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="219" selection-start-line="219" selection-end-line="219" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Interfaz/templates/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/mysql/connector/connection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
@@ -368,13 +485,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Interfaz/templates/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Interfaz/templates/base/base.html">
+    <entry file="file://$PROJECT_DIR$/Datos/Tables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-218">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        <state relative-caret-position="765">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
         </state>
       </provider>
     </entry>
@@ -385,28 +499,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Test/BDTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <marker date="1538924645862" expanded="true" signature="126:129" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Negocio/CRUDUsuario.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="425">
+          <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
-            <marker date="1538843658168" expanded="true" signature="222:227" ph="..." />
-            <marker date="1538843658168" expanded="true" signature="343:400" ph="..." />
-            <marker date="1538843658168" expanded="true" signature="508:555" ph="..." />
+            <marker date="1538938972712" expanded="true" signature="234:239" ph="..." />
+            <marker date="1538938972712" expanded="true" signature="355:412" ph="..." />
+            <marker date="1538938972712" expanded="true" signature="520:567" ph="..." />
+            <marker date="1538938972712" expanded="true" signature="761:805" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Datos/DataUsuario.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+          <folding>
+            <element signature="e#160#1247#0" />
+            <element signature="e#1283#1997#0" />
+            <marker date="1538938972571" expanded="true" signature="2033:2799" ph="..." />
+            <marker date="1538938972571" expanded="true" signature="3296:3297" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Interfaz/templates/crudUsuarios.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Interfaz/templates/loca.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="28" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Interfaz/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1452">
+          <caret line="217" column="14" selection-start-line="217" selection-start-column="14" selection-end-line="217" selection-end-column="14" />
+          <folding>
+            <element signature="n#src#0;n#img#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#a#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#a#0;n#div#1;n#div#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#a#0;n#div#2;n#div#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#src#0;n#img#0;n#a#0;n#div#3;n#div#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Datos/DataCiudad.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="105" selection-start-line="105" selection-end-line="105" />
+        <state relative-caret-position="17">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
-            <element signature="e#159#736#0" />
-            <element signature="e#793#1429#0" />
-            <element signature="e#2041#2600#0" />
             <marker date="1538860630811" expanded="true" signature="102:103" ph="..." />
           </folding>
         </state>
@@ -414,49 +581,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Interfaz/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="449">
+          <caret line="37" column="29" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
           <folding>
-            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#0#58#0" expanded="true" />
+            <marker date="1539095624342" expanded="true" signature="698:809" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Interfaz/templates/crudUsuarios.html">
+    <entry file="file://$PROJECT_DIR$/Interfaz/templates/base/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Datos/Tables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        <state relative-caret-position="422">
+          <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <marker date="1538860297587" expanded="true" signature="93:180" ph="..." />
-            <marker date="1538860297587" expanded="true" signature="199:200" ph="..." />
-            <marker date="1538860297587" expanded="true" signature="199:204" ph="..." />
-            <marker date="1538860297587" expanded="true" signature="260:265" ph="..." />
-            <marker date="1538860297587" expanded="true" signature="260:446" ph="..." />
-            <marker date="1538860297587" expanded="true" signature="860:881" ph="..." />
-            <marker date="1538860297587" expanded="false" signature="906:911" ph="..." />
-            <marker date="1538860297587" expanded="true" signature="978:983" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Datos/DataUsuario.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="47" column="47" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#702#1" />
-            <element signature="e#704#748#0" expanded="true" />
-            <element signature="e#1635#2274#0" />
-            <element signature="e#2325#2796#0" />
-            <element signature="e#2841#3319#0" />
+            <element signature="n#footer#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
