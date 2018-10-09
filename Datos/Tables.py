@@ -25,6 +25,8 @@ class Usuario (Entidades):
     FechaNacimiento = None
     DNI = None
     IdPerfil = None
+
+    """"
     IdCiudad = None
     Provincia = None
     Ciudad = None
@@ -35,7 +37,7 @@ class Usuario (Entidades):
     def GetProvincia(self):
         cod = self.Ciudad.GetOne(self.IdCiudad).IdProvincia
         return self.Provincia.GetOne(cod).Nombre
-
+    """
     def GetPerfil(self):
         User = Datos.DataUsuario.DataUsuario ()
         return User.GetPerfil (self.IdPerfil).Nombre

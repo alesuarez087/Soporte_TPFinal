@@ -27,9 +27,16 @@
             	<li class="nav-item">
 			        <a class="nav-link" href="#">Categorias</a>
             	</li>
+                {% if 'User' in session %}
 	            <li class="nav-item">
     		        <a class="nav-link" href="#">Mis Productos</a>
             	</li>
+                {% endif %}
+                {% if 'Admin' in session %}
+				<li class="nav-item">
+					<a class="nav-link" href="crudUsuarios">Usuarios</a>
+				</li>
+                {% endif %}
             </ul>
             <ul class="nav justify-content-right">
                 <li class="nav-item">
@@ -42,9 +49,9 @@
 
 
 
-				{% if session['usuario'] %}
+				{% if 'usuario' in session %}
                <li class="nav-item dropdown">
-                   <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                   <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CONF</button>
                    <div class="dropdown-menu">
                        <a class="dropdown-item" href="#">Datos Personales</a>
                        <div class="dropdown-divider"></div>
@@ -59,10 +66,6 @@
             </ul>
         </div>
     </nav>
-
-	{% if session['usuario'] %}
-		HAY UNA SESION ABIERTA {{ session['usuario'] }}
-	{% endif %}
 
     {% block contenido %}
     {% endblock %}
