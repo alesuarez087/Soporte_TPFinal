@@ -1,0 +1,19 @@
+{% extends 'base/base.html' %}
+
+{% block contenido %}
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+        </tr>
+    {% if artistas %}
+        {% for artista in artistas %}
+            <tr>
+                <td>{{ artista.ID }}</td>
+                <td>{{ artista.Nombre }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </table>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Artistas</title>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        {% if session['Modificar']: %}
+        <h3 class="header">Modificar Artista</h3>
+        {% elif session['Eliminar']: %}
+        <h3 class="header">Eliminar Artista</h3>
+        {% else %}
+        <h3 class="header">Nuevo Artista</h3>
+        {% endif %}
+
+        <form class="needs-validation" method="post" action="mapArtista" novalidate>
+            <div class="mb-3">
+                <label>Id Artista</label>
+                <input type="text" class="form-control" name="idArtista" id="idArtista" {% if arti %} value="{{ arti.ID }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %}  readonly>
+            </div>
+
+            <div class="mb-3">
+                <label>Nombre de Artista</label>
+                <input type="text" class="form-control" name="nombreArtista" id="nombreArtista" required {% if arti %} required value="{{ arti.Nombre }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Nombre de Artista.
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="habilitado" name="habilitado" {% if arti %}  {% if arti.Habilitado == 1 %} checked {% endif %} {% endif %}  >
+                <label>Habilitado</label>
+            </div>
+
+
+            <div align="center">
+                {% if session['Modificar']: %}
+                <input class="btn btn-success" type="submit" value="Modificar" id="event" name="event" />
+                {% elif session['Eliminar']: %}
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="event" name="event" />
+                {% else %}
+                <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+                {% endif %}
+                <a class="btn btn-primary" href="/artistas">Cancelar</a>
+            </div>
+        </form>
+
+<br>
+
+    <table class="table table-hover" align="center">
+        <thead>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Habilitado</th>
+            <th></th>
+            <th></th>
+        </thead>
+        {% if artistas %}
+        {% for artista in artistas %}
+        <tr>
+            <td>{{ artista.ID }}</td>
+            <td>{{ artista.Nombre }}</td>
+            <td><input type="checkbox" readonly disabled {% if artista.Habilitado == 1 %} checked {% endif %} ></td>
+            <td></td>
+            <form role="form" action="recupera" method="post" id="botonera" name="botonera">
+                <td style="vertical-align: middle">
+                    <input type="hidden" name="idSelect" id="idSelect" value="{{ artista.ID }}" />
+                    <input class="btn btn-success btn-sm" type="submit" value="Modificar" id="event" name="event" />
+                    <input class="btn btn-danger btn-sm" type="submit" {% if artista.Habilitado == 0  %} disabled {% endif %} value="Eliminar" id="event" name="event" />
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+</table>
+    </div>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+
+{% endblock %}
+
+<!--
+
+ <form class="needs-validation" method="post" id="formTabla" name="formTabla" >
+            <div class="form-group">
+                <label for="idArtista">Id artista:</label>
+                <input type="text" class="form-control" id="idArtista" name="idArtista"	{% if artista %} value="{{ artista.ID }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %} readonly />
+            </div>
+            <div class="form-group">
+                <b>Nombre:</b>
+                <input type="text" class="form-control" id="nombreArtista" name="nombreArtista" {% if artista %} required value="{{ artista.Nombre }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %}  />
+                <div class="invalid-feedback" style="width: 100%;">
+                    Your username is required.
+                </div>
+            </div>
+            <div class="form-group">
+                <b>Habilitado:</b>
+                <input type="checkbox" class="checkbox" id="habilitado" name="habilitado" {% if 'Eliminar' in session %} disabled readonly {% endif %}{% if artista %} {% if artista.Habilitado %}checked="checked" {% endif %} {% endif %}  />
+            </div>
+            <br />
+            <div class="form-group" align="center">
+                {% if session['Modificar']: %}
+                <input class="btn btn-success" type="submit" value="Modificar" id="event" name="event" />
+                {% elif session['Eliminar']: %}
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="event" name="event" />
+                {% else %}
+                <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+                {% endif %}
+                <a class="btn btn-default" href="artistas.html">Cancelar</a>
+            </div>
+        </form>
+
+-->

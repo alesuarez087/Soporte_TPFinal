@@ -1,14 +1,16 @@
 import unittest
-from Datos.DataUsuario import DataUsuario
+from Datos.ConnectionMySQL import Connection
+from Datos.ItemDB import DBItem
+from Datos.UsuarioDB import DBUsuario
 
 class TestPerfiles(unittest.TestCase):
 
 	def test_existencia(self):
-		self.assertEqual(len(DataUsuario().GetPerfiles()), 2)
+		self.assertNotEqual(Connection(), None)
 
-	def test_existe_admin(self):
-		self.assertEqual(DataUsuario().GetPerfiles()[0].Nombre, 'Administrador')
-		self.assertEqual(DataUsuario ().GetPerfiles ()[0].ID, 1)
+	def testRetorno(self):
+		retorno = DBUsuario()
+		self.assertNotEqual(retorno.Login('suareza', 'fer12345'), None)
 
 if __name__ == "__main__":
 	unittest.main()

@@ -6,6 +6,7 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="Test.BDTest.self" />
+          <option value="Datos.ItemDB.ListarItem" />
         </list>
       </option>
     </inspection_tool>
