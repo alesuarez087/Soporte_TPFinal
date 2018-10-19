@@ -1,11 +1,30 @@
-from Datos.UsuarioDB import DBUsuario
+from Datos import UsuarioDB, TipoUsuario
 
-class Usuarios:
+class Usuario():
     def __init__(self):
-        self.DataUsuario = DBUsuario()
+        self.DataUsuario = UsuarioDB.DBUsuario()
+        self.DataTipo = TipoUsuario.TipoUsuario()
+
+    def GetAll(self):
+        return self.DataUsuario.GetAll()
+
+    def GetOne(self, idUsuario):
+        return self.DataUsuario.GetOne(idUsuario)
 
     def Login(self, usuario, contr):
         return self.DataUsuario.Login(usuario, contr)
 
-    def GetUsuario(self, idUsuario):
-        return self.DataUsuario.GetUsuario(idUsuario)
+    def GetAllTipos(self):
+        return self.DataTipo.GetAll()
+
+    def Alta(self, usuario):
+        return self.DataUsuario.Alta(usuario)
+
+    def Modificar(self, usuario):
+        return self.DataUsuario.Modificar(usuario)
+
+    def Habilitar(self, idUsuario):
+        return self.DataUsuario.Habilitar(idUsuario)
+
+    def Deshabilitar(self, idUsuario):
+        return self.DataUsuario.Deshabilitar(idUsuario)

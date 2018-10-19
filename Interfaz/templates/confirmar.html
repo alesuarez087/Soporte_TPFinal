@@ -1,4 +1,5 @@
 {% if result %}
+{% if result==True %}
 <script type="text/javascript">
 	alert("Artista {{ texto }} correctamente");
 	window.location.href='/artistas';
@@ -8,4 +9,75 @@
 	alert("Error al ejecutar la petición");
     window.location.href='/artistas';
 </script>
+{% endif %}
+{% endif %}
+
+{% if resultGE %}
+{% if resultGE==True %}
+<script type="text/javascript">
+	alert("Genero {{ texto }} correctamente");
+	window.location.href='/generos';
+</script>
+{% else %}
+<script type="text/javascript">
+	alert("Error al ejecutar la petición");
+    window.location.href='/generos';
+</script>
+{% endif %}
+{% endif %}
+
+{% if resultUS %}
+{% if resultUS==True %}
+<script type="text/javascript">
+	alert("Usuario {{ texto }} correctamente");
+	window.location.href='/usuarios';
+</script>
+{% else %}
+<script type="text/javascript">
+	alert("Error al ejecutar la petición");
+    window.location.href='/usuarios';
+</script>
+{% endif %}
+{% endif %}
+
+{% if resultUS %}
+{% if resultUS==True %}
+<script type="text/javascript">
+	alert("Item {{ texto }} correctamente");
+	window.location.href='/items';
+</script>
+{% else %}
+<script type="text/javascript">
+	alert("Error al ejecutar la petición");
+    window.location.href='/items';
+</script>
+{% endif %}
+{% endif %}
+
+{% if resultTI %}
+{% if resultTI==True %}
+<script type="text/javascript">
+	alert("Tipo de Item {{ texto }} correctamente");
+	window.location.href='/tiposItem';
+</script>
+{% else %}
+<script type="text/javascript">
+	alert("Error al ejecutar la petición");
+    window.location.href='/tiposItem';
+</script>
+{% endif %}
+{% endif %}
+
+{% if resultIT %}
+{% if resultIT==True %}
+<script type="text/javascript">
+	alert("Item {{ texto }} correctamente");
+	window.location.href='/items';
+</script>
+{% else %}
+<script type="text/javascript">
+	alert("Error al ejecutar la petición");
+    window.location.href='/items';
+</script>
+{% endif %}
 {% endif %}

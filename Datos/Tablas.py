@@ -1,97 +1,100 @@
-from enum import Enum
-from Datos import ArtistaDB, ItemDB
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date, Boolean
 
 
-class States (Enum):
-    Alta = 'Alta'
-    Baja = 'Baja'
-    Modificacion = 'Modificacion'
-    Consulta = 'Consulta'
+Base = declarative_base()
+
+class Artista(Base):
+    __tablename__ = 'artistas'
+    id_artista = Column(Integer, primary_key=True, autoincrement=True)
+    nombre_artista = Column(String)
+    habilitado = Column(Boolean)
 
 
-class Entidad():
-    ID = None
-    Estado = None
-    Habilitado = None
 
-class Artista(Entidad):
-    Nombre = None
+class Clasificacion(Base):
+    __tablename__ = 'clasificaciones'
+    id_usuario = Column(Integer, ForeignKey('usuarios.id_usuario'), primary_key=True)
+    id_item = Column(Integer, ForeignKey('items.id_item'), primary_key=True)
+    valor = Column(Float)
+    detalles = Column(String)
 
-class Clasificacion(Entidad):
-    Valor = None
-    Detalles = None
-    IdUsuario = None
-    IdItem = None
+class Genero(Base):
+    __tablename__ = 'generos'
+    id_genero = Column(Integer, primary_key=True, autoincrement=True)
+    desc_genero = Column(String)
+    habilitado = Column(Boolean)
 
-class Genero(Entidad):
-    Descripcion = None
+class Precio(Base):
+    __tablename__ = 'precios'
+    fecha_desde = Column(Date, primary_key=True)
+    monto = Column(Float)
+    id_item = Column(Integer, ForeignKey('items.id_item'), primary_key=True)
 
-class Item(Entidad):
-    class TiposDisco(Enum):
-        CD = 'CD'
-        DVD = 'DVD'
-        Vinilo = 'Vinilo'
-        Pasta = 'Pasta'
-        BlueRay = 'BlueRay'
+class Provincia(Base):
+    __tablename__ = 'provincias'
+    id_provincia = Column(Integer, primary_key=True, autoincrement=True)
+    nombre_provincia = Column(String)
 
-    Stock = None
-    Titulo = None
-    AnioLanzamiento = None
-    TipoDisco = None
-    IdArtista = None
-    IdGenero = None
-    Portada = None
+class TipoItem(Base):
+    __tablename__ = 'tipos_item'
+    id_tipo_item = Column(Integer, primary_key=True, autoincrement=True)
+    desc_tipo_item = Column(String)
+    habilitado = Column(Boolean)
 
-    def GetArtista(self):
-        art = ArtistaDB.DBArtista()
-        return art.GetArtista(self.IdArtista).Nombre
+class Item(Base):
+    __tablename__ = 'items'
+    id_item = Column(Integer, primary_key=True, autoincrement=True)
+    stock = Column(Integer)
+    titulo = Column(String)
+    anio_lanzamiento = Column(Integer)
+    id_tipo_disco = Column(Integer, ForeignKey('tipos_item.id_tipo_item'))
+    id_artista = Column(Integer, ForeignKey('artistas.id_artista'))
+    id_genero = Column(Integer, ForeignKey('generos.id_genero'))
+    url_portada = Column(String)
+    habilitado = Column(Boolean)
 
-    def GetPrecio(self):
-        pre = ItemDB.DBItem()
-        return pre.GetPrecio(self.ID).Valor
+    artista = relationship(Artista, backref=backref('items', uselist=True))
+    genero = relationship(Genero, backref=backref('items', uselist=True))
+    tipo = relationship(TipoItem, backref=backref('items', uselist=True))
+    precio = relationship(Precio, backref=backref('items', uselist=True))
 
-class Precio():
-    VigenciaDesde = None
-    Valor = None
-    IdItem = None
+class TipoUsuario(Base):
+    __tablename__ = 'tipos_usuario'
+    id_tipo_usuario = Column(Integer, primary_key=True, autoincrement=True)
+    desc_tipo_usuario = Column(String)
 
-class Provincia(Entidad):
-    Descripcion = None
+class Usuario(Base):
+    __tablename__ = 'usuarios'
+    id_usuario = Column(Integer, primary_key=True, autoincrement=True)
+    nombre_usuario = Column(String)
+    clave = Column(String)
+    nombre = Column(String)
+    apellido = Column(String)
+    email = Column(String)
+    dni = Column(Integer)
+    id_tipo_usuario = Column(Integer, ForeignKey('tipos_usuario.id_tipo_usuario'))
+    habilitado = Column(Boolean)
 
-class TipoItem(Entidad):
-    Descripcion = None
 
-class TipoUsuario(Entidad):
-    Descripcion = None
+class Venta(Base):
+    __tablename__ = 'ventas'
+    id_venta = Column(Integer, primary_key=True, autoincrement=True)
+    titular_tarjeta = Column(String)
+    nro_tarjeta = Column(Integer)
+    id_usuario = Column(Integer, ForeignKey('usuarios.id_usuario'))
+    fecha = Column(Date)
+    id_provincia = Column(Integer, ForeignKey('provincias.id_provincia'))
+    localidad = Column(String)
+    calle = Column(String)
+    nro_calle = Column(Integer)
+    piso = Column(String)
+    nro_dpto = Column(String)
 
-class Usuario(Entidad):
-    class TiposUsuario(Enum):
-        Administrador ='Administrador'
-        Usuario = 'Usuario'
-        Empleado = 'Empleado'
-
-    NombreUsuario = None
-    Clave = None
-    Nombre = None
-    Apellido = None
-    Email = None
-    DNI = None
-    TipoUsuario = None
-
-class Venta(Entidad):
-    TitularTarjeta = None
-    NroTarjeta = None
-    IdUsuario = None
-    Fecha = None
-    IdProvincia = None
-    Localidad = None
-    Calle = None
-    NroCalle = None
-    Piso = None
-    NroDpto = None
-
-class VentaItem(Entidad):
-    IdVenta = None
-    IdItem = None
-    Cantidad = None
+class VentaItem(Base):
+    __tablename__ = 'ventaItems'
+    id_venta = Column(Integer, ForeignKey('ventas.id_venta'), primary_key=True)
+    id_item = Column(Integer, ForeignKey('items.id_item'), primary_key=True)
+    cantidad = Column(Integer)
 

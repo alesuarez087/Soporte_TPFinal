@@ -1,0 +1,53 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Carrito de Compras</title>
+{% endblock %}
+
+{% block contenido %}
+
+
+<div class="container">
+    <h2 class="page-header">Carrito de Compras</h2>
+    {% if items %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Año Lanzamiento</th>
+            <th>Género</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Quitar del carro</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+        <tr>
+            <td style="vertical-align: middle">{{ item.titulo }}</td>
+            <td style="vertical-align: middle">{{ item.nombre_artista }}</td>
+            <td style="vertical-align: middle">{{ item.anio_lanzamiento }}</td>
+            <td style="vertical-align: middle"><?php echo $fila['desc_genero']; ?></td>
+            <td style="vertical-align: middle"><?php echo $fila['monto']; ?></td>
+            <td style="vertical-align: middle"><?php echo $item['Cantidad']; ?></td>
+            <td style="vertical-align: middle">
+                <form role="form" action="../code/itemVENTA.php" method="post" id="eliminar" name="eliminar">
+                    <input type="hidden" name="idSelected" id="idSelected" value="<?php echo $fila['id_item'] ?>" />
+                    <input class="btn btn-danger btn-sm" type="submit" value="Eliminar" id="event" name="event" />
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+
+<div style="text-align:center">
+    <img alt="Brand" src="{{ url_for('static', filename='img/img_001.png') }}"> <br />
+    <h2>Tu carrito está vacío </h2>
+</div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Resultados de la Búsqueda</title>
+{% endblock %}
+
+{% block contenido %}
+<div class="col-3">
+
+</div>
+<div class="container marketing">
+    <h3 class="header">Resultados de la Búsqueda</h3><br>
+    {% if items %}
+
+        <div class="row">
+            {% for item in items %}
+
+                <div class="col-lg-3 text-center">
+                    <form action="verProducto" method="post">
+                    <img class="category-image" src="{{ item.url_portada }}" width="140" height="140" />
+                        <h5 >{{ item.titulo }}</h5>
+                        <h6>{{ item.artista.nombre_artista }}</h6>
+                    <input type="hidden" name="idSelect" id="idSelect" value="{{ item.id_item }}" />
+                    <input type="submit" value="Ver Producto" class="btn btn-sm btn-danger">
+                    </form>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+    <div style="text-align:center">
+    <h3 class="header">No se han encontrado resultados</h3>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

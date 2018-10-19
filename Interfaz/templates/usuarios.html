@@ -1,0 +1,149 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Usuarios</title>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        {% if session['Modificar']: %}
+        <h3 class="header">Modificar Usuario</h3>
+        {% elif session['Eliminar']: %}
+        <h3 class="header">Eliminar Usuario</h3>
+        {% else %}
+        <h3 class="header">Nuevo Usuario</h3>
+        {% endif %}
+
+        <form class="needs-validation" method="post" action="mapUsuario" novalidate>
+            <div class="mb-3">
+                <label>Id Artista</label>
+                <input type="text" class="form-control" name="idUsuario" id="idUsuario" {% if usu %} value="{{ usu.id_usuario }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %}  readonly>
+            </div>
+
+            <div class="mb-3">
+                <label>Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="nombre" required {% if usu %} required value="{{ usu.nombre }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Nombre.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Apellido</label>
+                <input type="text" class="form-control" name="apellido" id="apellido" required {% if usu %} required value="{{ usu.apellido }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Apellido
+                </div>
+            </div><div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" name="email" id="email" required {% if usu %} required value="{{ usu.email }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+            <div class="invalid-feedback">
+                Ingrese Email.
+            </div>
+            <div class="mb-3">
+                <label>DNI</label>
+                <input type="number" class="form-control" name="dni" id="dni" required {% if usu %} required value="{{ usu.dni }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Nombre.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Nombre de Usuario</label>
+                <input type="text" class="form-control" name="nombreUsuario" id="nombreUsuario" required {% if usu %} required value="{{ usu.nombre_usuario }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Nombre.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" name="clave" id="clave" required {% if usu %} required value="{{ usu.clave }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Contraseña.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Tipo de Usuario</label>
+                <select class="form-control" id="tipoUsuario" name="tipoUsuario" required {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                    <option value="0">Seleccionar Tipo de Usuario</option>
+                    {% for tipo in tipos %}
+                    <option value="{{ tipo.id_tipo_usuario }}" {% if usu %} {% if usu.id_tipo_usuario == tipo.id_tipo_usuario %} selected {% endif %} {% endif %}>{{ tipo.desc_tipo_usuario }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+            <div align="center">
+                {% if session['Modificar']: %}
+                <input class="btn btn-success" type="submit" value="Modificar" id="event" name="event" />
+                {% elif session['Eliminar']: %}
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="event" name="event" />
+                {% else %}
+                <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+                {% endif %}
+                <a class="btn btn-primary" href="/usuarios">Cancelar</a>
+            </div>
+        </form>
+
+<br>
+    </div>
+    <table class="table table-hover" align="center">
+        <thead>
+            <th>Id</th>
+            <th>Apellido y Nombre</th>
+            <th>DNI</th>
+            <th>Email</th>
+            <th>Tipo de Usuario</th>
+            <th>Nombre de Usuario</th>
+            <th>Habilitado</th>
+            <th></th>
+        </thead>
+        {% if usuarios %}
+        {% for user in usuarios %}
+        <tr>
+            <td>{{ user.id_usuario }}</td>
+            <td>{{ user.apellido }}, {{ user.nombre }}</td>
+            <td>{{ user.dni }}</td>
+            <td>{{ user.email }}</td>
+            {% for tipo in tipos %}
+            {% if tipo.id_tipo_usuario == user.id_tipo_usuario%}
+            <td>{{ tipo.desc_tipo_usuario }}</td>
+            {% endif %}
+            {% endfor%}
+            <td>{{ user.nombre_usuario }}</td>
+            <td><input type="checkbox" readonly disabled {% if user.habilitado == True %} checked {% endif %}></td>
+            <form role="form" action="recuperaUsuario" method="post" id="botonera" name="botonera">
+                <td style="vertical-align: middle">
+                    <input type="hidden" name="idSelect" id="idSelect" value="{{ user.id_usuario }}" />
+                    <input class="btn btn-success btn-sm" type="submit" value="Modificar" id="event" name="event" />
+                    <input class="btn btn-danger btn-sm" type="submit" value="Deshabilitar" id="event" name="event" {% if user.habilitado == False %} disabled {% endif %} />
+                    <input class="btn btn-primary btn-sm" type="submit" value="Habilitar" id="event" name="event" {% if user.habilitado == True %} disabled {% endif %} />
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+</table>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+{% endblock %}
+

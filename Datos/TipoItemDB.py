@@ -1,97 +1,81 @@
 from Datos import Conexion
 from Datos import Tablas
 
-
-class DBArtista():
-
+class DBTipoItem():
     def __init__(self):
         self.con = Conexion.conexion()
 
     def GetAll(self):
         try:
-            artistas = self.con.session.query(Tablas.Artista).order_by(Tablas.Artista.nombre_artista).all()
-            if(len(artistas)==0):
+            tip = self.con.session.query(Tablas.TipoItem).order_by(Tablas.TipoItem.desc_tipo_item).all()
+            if(len(tip)==0):
                 return False
             else:
-                return artistas
+                return tip
         finally:
             self.con.session.close()
 
-    def GetHabilitados(self):
+    def GetHabilitado(self):
         try:
-            artistas = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.habilitado == True).order_by(Tablas.Artista.nombre_artista).all()
-            if(len(artistas)==0):
+            tip = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.habilitado == True).order_by(Tablas.TipoItem.desc_tipo_item).all()
+            if(len(tip)==0):
                 return False
             else:
-                return artistas
+                return tip
         finally:
             self.con.session.close()
 
-    def GetOne(self, idArtista):
+    def GetOne(self, idTipoItem):
         try:
-            artista = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.id_artista == idArtista).first()
-            return artista
+            item = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.id_tipo_item == idTipoItem).first()
+            return item
         except:
             return None
         finally:
             self.con.session.close()
 
-    def Save(self, artista, state):
-        if state=='Alta':
-            return self.Alta(artista)
-        elif state=='Baja':
-            return self.Baja(artista)
-        elif state=='Modificar':
-            return self.Modificar(artista)
-
-    def Alta(self, artista):
+    def Alta(self, item):
         try:
-            self.con.session.add(artista)
+            self.con.session.add(item)
             self.con.session.commit()
             return True
         except Exception as e:
-            print(e)
+            print('Error '+e)
             self.con.session.rollback()
             return False
         finally:
             self.con.session.close()
 
-    def Baja(self, artista):
+    def Baja(self, tipoItem):
         try:
-            update = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.id_artista == artista.id_artista).first()
+            sq = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.id_tipo_item == tipoItem.id_tipo_item).first()
+            self.con.session.delete(sq)
+            self.con.session.commit()
+            return True
+        except Exception as e:
+            self.con.session.rollback()
+            print(e)
+            return False
+        finally:
+            self.con.session.close()
 
-            update.habilitado = False
+    def Modificar(self, tipoItem):
+        try:
+            update = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.id_tipo_item == tipoItem.id_tipo_item).first()
+            update.desc_tipo_item = tipoItem.desc_tipo_item
 
             self.con.session.add(update)
             self.con.session.commit()
             return True
         except Exception as e:
             self.con.session.rollback()
-            print(e)
             return False
         finally:
             self.con.session.close()
 
-    def Modificar(self, artista):
+    def Habilitar(self, idTipoItem):
         try:
-            update = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.id_artista == artista.id_artista).first()
-
-            update.nombre_artista = artista.nombre_artista
-            update.habilitado = artista.habilitado
-            self.con.session.add(update)
-            self.con.session.commit()
-
-            return True
-        except Exception as e:
-            print(e)
-            self.con.session.rollback()
-            return False
-        finally:
-            self.con.session.close()
-
-    def Habilitar(self, idArtista):
-        try:
-            update = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.id_artista == idArtista).first()
+            update = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.id_tipo_item == idTipoItem).first()
 
             update.habilitado = True
             self.con.session.add(update)
@@ -105,9 +89,9 @@ class DBArtista():
         finally:
             self.con.session.close()
 
-    def Deshabilitar(self, idArtista):
+    def Deshabilitar(self, idTipoItem):
         try:
-            update = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.id_artista == idArtista).first()
+            update = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.id_tipo_item == idTipoItem).first()
 
             update.habilitado = False
             self.con.session.add(update)

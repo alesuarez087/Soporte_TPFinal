@@ -1,14 +1,26 @@
-from Datos.ArtistaDB import DBArtista
+from Datos import ArtistaDB
 
 class Artista():
     def __init__(self):
-        self.DataArtista = DBArtista()
+        self.DataArtista = ArtistaDB.DBArtista()
 
     def GetAll(self):
         return self.DataArtista.GetAll()
 
-    def GetOne(self, idArtista):
-        return self.DataArtista.GetArtista(idArtista)
+    def GetHabilitados(self):
+        return  self.DataArtista.GetHabilitados()
 
-    def Save(self, artista):
-        return self.DataArtista.Guardar(artista)
+    def GetOne(self, idArtista):
+        return self.DataArtista.GetOne(idArtista)
+
+    def Alta(self, artista):
+        return self.DataArtista.Alta(artista)
+
+    def Modificar(self, artista):
+        return self.DataArtista.Modificar(artista)
+
+    def Habilitar(self, idArtista):
+        return self.DataArtista.Habilitar(idArtista)
+
+    def Deshabilitar(self, idArtista):
+        return self.DataArtista.Deshabilitar(idArtista)

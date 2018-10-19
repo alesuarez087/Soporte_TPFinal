@@ -1,19 +1,37 @@
-{% extends 'base/base.html' %}
+{% from "base/_macro.html" import render_field %}
 
-{% block contenido %}
+<html>
+<head>
+    <meta charset="utf-8">
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-        </tr>
-    {% if artistas %}
-        {% for artista in artistas %}
-            <tr>
-                <td>{{ artista.ID }}</td>
-                <td>{{ artista.Nombre }}</td>
-            </tr>
-        {% endfor %}
-    {% endif %}
-    </table>
-{% endblock %}
+    <link rel="stylesheet" href="http://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" />
+    <link href="http://getbootstrap.com/docs/4.1/examples/carousel/carousel.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/docs/4.1/examples/navbars/navbar.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+</head>
+
+
+
+<script>
+    $(function() {
+        $.ajax({
+            url: '{{ url_for("autocomplete") }}'
+            }).done(function (data){
+                $('#city_autocomplete').autocomplete({
+                    source: data,
+                    minLength: 2
+                });
+            });
+        });
+</script>
+
+<body>
+<form>
+{{ form.autocomp.label }}: {{ render_field(form.autocomp, class='form-control') }}
+
+</form>
+</body>
+</html>

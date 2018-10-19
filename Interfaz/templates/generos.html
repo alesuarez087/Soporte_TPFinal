@@ -1,31 +1,30 @@
 {% extends 'base/base.html' %}
 
 {% block titulo %}
-<title>Artistas</title>
+<title>Géneros</title>
 {% endblock %}
 
 {% block contenido %}
     <div class="container">
         {% if session['Modificar']: %}
-        <h3 class="header">Modificar Artista</h3>
+        <h3 class="header">Modificar Género</h3>
         {% elif session['Eliminar']: %}
-        <h3 class="header">Eliminar Artista</h3>
+        <h3 class="header">Eliminar Género</h3>
         {% else %}
-        <h3 class="header">Nuevo Artista</h3>
+        <h3 class="header">Nuevo Género</h3>
         {% endif %}
 
-        <form class="needs-validation" method="post" action="mapArtista" novalidate>
-
+        <form class="needs-validation" method="post" action="mapGenero" novalidate>
             <div class="mb-3">
                 <label>Id Artista</label>
-                <input type="text" class="form-control" name="idArtista" id="idArtista" {% if arti %} value="{{ arti.id_artista }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %}  readonly>
+                <input type="text" class="form-control" name="idGenero" id="idGenero" {% if genero %} value="{{ genero.id_genero }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %}  readonly>
             </div>
 
             <div class="mb-3">
-                <label>Nombre de Artista</label>
-                <input type="text" class="form-control" name="nombreArtista" id="nombreArtista" required {% if arti %} required value="{{ arti.nombre_artista }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <label>Nombre de Género</label>
+                <input type="text" class="form-control" name="nombreGenero" id="nombreGenero" required {% if genero %} required value="{{ genero.desc_genero }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
                 <div class="invalid-feedback">
-                    Ingrese Nombre de Artista.
+                    Ingrese Nombre de Género.
                 </div>
             </div>
 
@@ -37,9 +36,8 @@
                 {% else %}
                 <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
                 {% endif %}
-                <a class="btn btn-primary" href="/artistas">Cancelar</a>
+                <a class="btn btn-primary" href="/generos">Cancelar</a>
             </div>
-
         </form>
 
 <br>
@@ -51,18 +49,18 @@
             <th>Habilitado</th>
             <th></th>
         </thead>
-        {% if artistas %}
-        {% for artista in artistas %}
+        {% if generos %}
+        {% for genero in generos %}
         <tr>
-            <td>{{ artista.id_artista }}</td>
-            <td>{{ artista.nombre_artista }}</td>
-            <td><input type="checkbox" readonly disabled {% if artista.habilitado == True %} checked {% endif %}></td>
-            <form role="form" action="recupera" method="post" id="botonera" name="botonera">
+            <td>{{ genero.id_genero }}</td>
+            <td>{{ genero.desc_genero }}</td>
+            <td><input type="checkbox" readonly disabled {% if genero.habilitado == True %} checked {% endif %}></td>
+            <form role="form" action="recuperaGenero" method="post" id="botonera" name="botonera">
                 <td style="vertical-align: middle">
-                    <input type="hidden" name="idSelect" id="idSelect" value="{{ artista.id_artista }}" />
+                    <input type="hidden" name="idSelect" id="idSelect" value="{{ genero.id_genero }}" />
                     <input class="btn btn-success btn-sm" type="submit" value="Modificar" id="event" name="event" />
-                    <input class="btn btn-danger btn-sm" type="submit" value="Deshabilitar" id="event" name="event" {% if artista.habilitado == False %} disabled {% endif %} />
-                    <input class="btn btn-primary btn-sm" type="submit" value="Habilitar" id="event" name="event" {% if artista.habilitado == True %} disabled {% endif %} />
+                    <input class="btn btn-danger btn-sm" type="submit" value="Deshabilitar" id="event" name="event" {% if genero.habilitado == False %} disabled {% endif %} />
+                    <input class="btn btn-primary btn-sm" type="submit" value="Habilitar" id="event" name="event" {% if genero.habilitado == True %} disabled {% endif %} />
                 </td>
             </form>
         </tr>

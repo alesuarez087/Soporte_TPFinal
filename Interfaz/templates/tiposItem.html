@@ -1,0 +1,128 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Tipos de Item</title>
+{% endblock %}
+
+{% block contenido %}
+    <div class="container">
+        {% if session['Modificar']: %}
+        <h3 class="header">Modificar Tipo de Item</h3>
+        {% elif session['Eliminar']: %}
+        <h3 class="header">Eliminar Tipo de Item</h3>
+        {% else %}
+        <h3 class="header">Nuevo Tipo de Item</h3>
+        {% endif %}
+
+        <form class="needs-validation" method="post" action="mapTipoItem" novalidate>
+            <div class="mb-3">
+                <label>ID Tipo Item</label>
+                <input type="text" class="form-control" name="idTipoItem" id="idTipoItem" {% if tipo %} value="{{ tipo.id_tipo_item }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %}  readonly>
+            </div>
+
+            <div class="mb-3">
+                <label>Nombre Tipo Item</label>
+                <input type="text" class="form-control" name="nombreTipoItem" id="nombreTipoItem" required {% if tipo %} required value="{{ tipo.desc_tipo_item }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Nombre de Tipo de Item.
+                </div>
+            </div>
+
+            <div align="center">
+                {% if session['Modificar']: %}
+                <input class="btn btn-success" type="submit" value="Modificar" id="event" name="event" />
+                {% elif session['Eliminar']: %}
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="event" name="event" />
+                {% else %}
+                <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+                {% endif %}
+                <a class="btn btn-primary" href="/tiposItem">Cancelar</a>
+            </div>
+        </form>
+
+<br>
+
+    <table class="table table-hover" align="center">
+        <thead>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Habilitado</th>
+            <th></th>
+        </thead>
+        {% if tipos %}
+        {% for tipo in tipos %}
+        <tr>
+            <td>{{ tipo.id_tipo_item }}</td>
+            <td>{{ tipo.desc_tipo_item }}</td>
+            <td><input type="checkbox" readonly disabled {% if tipo.habilitado == True %} checked {% endif %}></td>
+            <form role="form" action="recuperaTipoItem" method="post" id="botonera" name="botonera">
+                <td style="vertical-align: middle">
+                    <input type="hidden" name="idSelect" id="idSelect" value="{{ tipo.id_tipo_item }}" />
+                    <input class="btn btn-success btn-sm" type="submit" value="Modificar" id="event" name="event" />
+                    <input class="btn btn-danger btn-sm" type="submit" value="Deshabilitar" id="event" name="event" {% if tipo.habilitado == False %} disabled {% endif %} />
+                    <input class="btn btn-primary btn-sm" type="submit" value="Habilitar" id="event" name="event" {% if tipo.habilitado == True %} disabled {% endif %} />
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+        {% endif %}
+
+</table>
+    </div>
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+{% endblock %}
+
+
+<!--
+
+ <form class="needs-validation" method="post" id="formTabla" name="formTabla" >
+            <div class="form-group">
+                <label for="idArtista">Id artista:</label>
+                <input type="text" class="form-control" id="idArtista" name="idArtista"	{% if artista %} value="{{ artista.ID }}"  {% endif %} {% if 'Eliminar' in session %} disabled {% endif %} readonly />
+            </div>
+            <div class="form-group">
+                <b>Nombre:</b>
+                <input type="text" class="form-control" id="nombreArtista" name="nombreArtista" {% if artista %} required value="{{ artista.Nombre }}"  {% endif %} {% if 'Eliminar' in session %} disabled readonly {% endif %}  />
+                <div class="invalid-feedback" style="width: 100%;">
+                    Your username is required.
+                </div>
+            </div>
+            <div class="form-group">
+                <b>Habilitado:</b>
+                <input type="checkbox" class="checkbox" id="habilitado" name="habilitado" {% if 'Eliminar' in session %} disabled readonly {% endif %}{% if artista %} {% if artista.Habilitado %}checked="checked" {% endif %} {% endif %}  />
+            </div>
+            <br />
+            <div class="form-group" align="center">
+                {% if session['Modificar']: %}
+                <input class="btn btn-success" type="submit" value="Modificar" id="event" name="event" />
+                {% elif session['Eliminar']: %}
+                <input class="btn btn-danger" type="submit" value="Eliminar" id="event" name="event" />
+                {% else %}
+                <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+                {% endif %}
+                <a class="btn btn-default" href="artistas.html">Cancelar</a>
+            </div>
+        </form>
+
+-->

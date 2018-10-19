@@ -1,5 +1,5 @@
 import unittest
-from Datos.ConnectionMySQL import Connection
+from Datos.Conexion import Connection
 from Datos.ItemDB import DBItem
 from Datos.UsuarioDB import DBUsuario
 

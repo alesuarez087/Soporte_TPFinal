@@ -1,9 +1,35 @@
-from Datos.ItemDB import DBItem
+from Datos import ItemDB
 
-
-class Item:
+class Item():
     def __init__(self):
-        self.DataItem = DBItem()
+        self.DataItem = ItemDB.DBItem()
 
-    def ListarItem(self):
-        return self.DataItem.ListarItem()
+    def GetBuscador(self, texto):
+        return  self.DataItem.GetBuscador(texto)
+
+    def GetAll(self):
+        return self.DataItem.GetAll()
+
+    def GetNovedades(self):
+        return  self.DataItem.GetNovedades()
+
+    def GetPrecios(self):
+        return self.DataItem.GetPrecios()
+
+    def GetOne(self, idItem):
+        return self.DataItem.GetOne(idItem)
+
+    def GetPrecio(self, idItem):
+        return self.DataItem.GetPrecio(idItem)
+
+    def Alta(self, item, precio):
+        return self.DataItem.Alta(item, precio)
+
+    def Modificar(self, item, precio):
+        return self.DataItem.Modificar(item, precio)
+
+    def Habilitar(self, idItem):
+        return self.DataItem.Habilitar(idItem)
+
+    def Deshabilitar(self, idItem):
+        return self.DataItem.Deshabilitar(idItem)

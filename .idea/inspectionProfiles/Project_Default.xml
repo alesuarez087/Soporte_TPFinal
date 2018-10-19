@@ -7,6 +7,7 @@
         <list>
           <option value="Test.BDTest.self" />
           <option value="Datos.ItemDB.ListarItem" />
+          <option value="Datos.Tablas.TipoItem" />
         </list>
       </option>
     </inspection_tool>
