@@ -35,7 +35,7 @@ class Precio(Base):
 class Provincia(Base):
     __tablename__ = 'provincias'
     id_provincia = Column(Integer, primary_key=True, autoincrement=True)
-    nombre_provincia = Column(String)
+    desc_provincia = Column(String)
 
 class TipoItem(Base):
     __tablename__ = 'tipos_item'
@@ -77,6 +77,13 @@ class Usuario(Base):
     id_tipo_usuario = Column(Integer, ForeignKey('tipos_usuario.id_tipo_usuario'))
     habilitado = Column(Boolean)
 
+class VentaItem(Base):
+    __tablename__ = 'venta_item'
+    id_venta = Column(Integer, ForeignKey('ventas.id_venta'), primary_key=True)
+    id_item = Column(Integer, ForeignKey('items.id_item'), primary_key=True)
+    cantidad = Column(Integer)
+
+    item = relationship(Item, backref=backref('items', uselist=True))
 
 class Venta(Base):
     __tablename__ = 'ventas'
@@ -88,13 +95,12 @@ class Venta(Base):
     id_provincia = Column(Integer, ForeignKey('provincias.id_provincia'))
     localidad = Column(String)
     calle = Column(String)
-    nro_calle = Column(Integer)
+    numero = Column(Integer)
     piso = Column(String)
-    nro_dpto = Column(String)
+    dpto = Column(String)
+    habilitado = Column(Boolean)
 
-class VentaItem(Base):
-    __tablename__ = 'ventaItems'
-    id_venta = Column(Integer, ForeignKey('ventas.id_venta'), primary_key=True)
-    id_item = Column(Integer, ForeignKey('items.id_item'), primary_key=True)
-    cantidad = Column(Integer)
+    venta_item = relationship(VentaItem, backref=backref('venta_item', uselist=True))
+
+
 

@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Resumen Compra</title>
+{% endblock %}
+
+
+{% block contenido %}
+
+
+<div class="container">
+    <h3>Compras</h3>
+    <div class="row">
+        <table class="table table-hover" style="text-align: left">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Discos</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            {% for compra in compras %}
+            <tbody>
+            <tr>
+                <td style="vertical-align: middle">
+                    {{ compra.id_venta }}
+                </td>
+                <td style="vertical-align: middle">
+                    {% for vi in venta_item %}
+                        {% if vi.id_venta == compra.id_venta%}
+                            {% for item in items %}
+                    <table>
+                                {% if item.id_item == vi.id_item %}
+                                    <tr>{{ item.titulo }}</tr>
+                                {% endif%}
+                    </table>
+                            {% endfor %}
+                        {% endif%}
+                    {% endfor %}
+                </td>
+                <td style="vertical-align: middle">
+                    {{ compra.fecha }}
+                </td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

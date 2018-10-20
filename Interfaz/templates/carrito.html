@@ -19,28 +19,115 @@
             <th>Género</th>
             <th>Precio</th>
             <th>Cantidad</th>
+            <th>Subtotal</th>
             <th>Quitar del carro</th>
         </tr>
         </thead>
         <tbody>
         {% for item in items %}
         <tr>
-            <td style="vertical-align: middle">{{ item.titulo }}</td>
-            <td style="vertical-align: middle">{{ item.nombre_artista }}</td>
-            <td style="vertical-align: middle">{{ item.anio_lanzamiento }}</td>
-            <td style="vertical-align: middle"><?php echo $fila['desc_genero']; ?></td>
-            <td style="vertical-align: middle"><?php echo $fila['monto']; ?></td>
-            <td style="vertical-align: middle"><?php echo $item['Cantidad']; ?></td>
+            <td>{{ item[0].titulo }}</td>
+            <td>{{ item[0].artista.nombre_artista }}</td>
+            <td>{{ item[0].anio_lanzamiento }}</td>
+            <td>{{ item[0].genero.desc_genero }}</td>
+            {% for p in precios %}
+            {% if p[0] == item[0].id_item %}
+            <td>${{ p[2] }}</td>
+            {% endif %}
+            {% endfor %}
+            <td>
+                {% for can in cantidades %}
+                {% if can[0] == item[0].id_item %}
+                {{ can[1] }}
+                {% endif %}
+                {% endfor %}
+            </td>
+            {% for s in subtotal %}
+            {% if s[0] == item[0].id_item %}
+                <td>${{ s[1] }}</td>
+            {% endif %}
+            {% endfor %}
             <td style="vertical-align: middle">
-                <form role="form" action="../code/itemVENTA.php" method="post" id="eliminar" name="eliminar">
-                    <input type="hidden" name="idSelected" id="idSelected" value="<?php echo $fila['id_item'] ?>" />
+                <form role="form" action="quitarCarrito" method="post" id="eliminar" name="eliminar">
+                    <input type="hidden" name="idSelect" id="idSelect" value="{{ item[0].id_item }}" />
                     <input class="btn btn-danger btn-sm" type="submit" value="Eliminar" id="event" name="event" />
                 </form>
             </td>
         </tr>
         {% endfor %}
+        <tr>
+            <td colspan="7" style="text-align:right">TOTAL</td>
+            <td>${{ total }}</td>
+        </tr>
         </tbody>
     </table>
+    <hr class="divider">
+    <br>
+
+    <form class="needs-validation" method="post" action="confirmaVenta" novalidate>
+            <div class="mb-3">
+                <label>Provincia</label>
+                <select class="custom-select d-block w-100" id="provincia" name="provincia" required >
+                <option value="">Seleccionar Provincia</option>
+                {% for provincia in provincias %}
+                <option value="{{ provincia.id_provincia }}" >{{ provincia.desc_provincia }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="invalid-feedback">
+                Ingrese Provincia.
+            </div>
+        <div class="mb-3">
+            <label>Localidad</label>
+            <input type="text" class="form-control" name="localidad" id="localidad" required>
+            <div class="invalid-feedback">
+                Ingrese Localidad.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Calle</label>
+            <input type="text" class="form-control" name="calle" id="calle" required>
+            <div class="invalid-feedback">
+                Ingrese Nombre de Calle.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label>Nro Calle</label>
+                <input type="text" class="form-control" name="nroCalle" id="nroCalle" required>
+                <div class="invalid-feedback">
+                    Ingrese Nro de Calle.
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Piso</label>
+                <input type="text" class="form-control" name="piso" id="piso">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Departamento</label>
+                <input type="text" class="form-control" name="dpto" id="dpto">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Número Tarjeta</label>
+            <input type="text" class="form-control" name="nroTarjeta" id="nroTarjeta" required minlength="16" maxlength="16">
+            <div class="invalid-feedback">
+                Ingrese Número de Tarjeta.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Titular de Tarjeta</label>
+            <input type="text" class="form-control" name="titularTarjeta" id="titularTarjeta" required>
+            <div class="invalid-feedback">
+                Ingrese Titular de Tarjeta.
+            </div>
+        </div>
+        <div align="center">
+            <input class="btn btn-success" type="submit" value="Confirmar Compra" id="event" name="event" />
+
+        </div>
+        </form>
+
 
 {% else %}
 
@@ -50,4 +137,29 @@
 </div>
 </div>
 {% endif %}
+
+
+<script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+
 {% endblock %}

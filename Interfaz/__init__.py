@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session
-from Negocio import ArtistaLogic, ItemLogic, UsuarioLogic, GeneroLogic, TipoItemLogic
+from Negocio import ArtistaLogic, ItemLogic, UsuarioLogic, GeneroLogic, TipoItemLogic, VentaLogic
 from Datos import Tablas
 
 app = Flask(__name__)
@@ -30,17 +30,18 @@ def buscador():
         contIT = ItemLogic.Item()
         texto = request.form['search']
         its = contIT.GetBuscador(texto)
+        prs = contIT.GetPrecios()
         if 'usuario' in session:
             contUS = UsuarioLogic.Usuario()
             id = session['usuario']
             user = contUS.GetOne(id)
             if 'Carrito' in session:
                 car = session['Carrito']
-                return render_template('resultados.html', usuario=user, items=its, carrito=len(car))
+                return render_template('resultados.html', usuario=user, items=its, carrito=len(car), precios=prs)
             else:
-                return render_template('resultados.html', usuario=user, items=its)
+                return render_template('resultados.html', usuario=user, items=its, precios=prs)
         else:
-            return render_template('resultados.html', items=its)
+            return render_template('resultados.html', items=its, precios=prs)
 
 @app.route('/verProducto', methods=["GET", "POST"])
 def verProducto():
@@ -48,24 +49,29 @@ def verProducto():
        contIT = ItemLogic.Item()
        cod = request.form['idSelect']
        it = contIT.GetOne(cod)
+       pr = contIT.GetPrecio(cod)
        if 'usuario' in session:
            contUS = UsuarioLogic.Usuario()
            id = session['usuario']
            user = contUS.GetOne(id)
            if 'Carrito' in session:
                car = session['Carrito']
-               return render_template('verProducto.html', usuario=user, item=it, carrito=len(car))
+               return render_template('verProducto.html', usuario=user, item=it, carrito=len(car), precio=pr)
            else:
-               return render_template('verProducto.html', usuario=user, item=it)
+               return render_template('verProducto.html', usuario=user, item=it, precio=pr)
        else:
-           return render_template('verProducto.html', item=it)
+           return render_template('verProducto.html', item=it, precio=pr)
 
 @app.route('/agregarCarrito', methods=["GET", "POST"])
 def agregarCarrito():
     if request.method == 'POST':
-        cod = request.form['idSelect']
-        car = session['Carrito']
-        car.append(cod)
+        cod = int(request.form['idSelect'])
+        cant = int(request.form['cantidad'])
+        if 'Carrito' in session:
+            car = session['Carrito']
+        else:
+            car = []
+        car.append([cod, cant])
 
         for c in car:
             print(c)
@@ -80,24 +86,81 @@ def agregarCarrito():
     else:
         return render_template('index.html')
 
+@app.route('/quitarCarrito', methods=["GET", "POST"])
+def quitarCarrito():
+    if request.method == 'POST':
+        cod = int(request.form['idSelect'])
+        car = session['Carrito']
+
+        i = 0
+        for c in car:
+            if c[0] != cod:
+                i=+1
+            else:
+                break
+
+        if i <= len(car):
+            car.pop(i)
+
+        session['Carrito'] = car
+        contIT = ItemLogic.Item()
+        contUS = UsuarioLogic.Usuario()
+        id = session['usuario']
+        user = contUS.GetOne(id)
+        prs = contIT.GetPrecios()
+        its = []
+        for c in car:
+            it = Tablas.Item()
+            it = contIT.GetOne(c[0])
+            its.append(it)
+
+        subtotal = []
+        for c in car:
+            for p in prs:
+                if c[0] == p[0]:
+                    sub = p[2]*c[1]
+                    subtotal.append((c[0], sub))
+        total = 0
+        for sub in subtotal:
+            total = total + sub[1]
+
+        contVE = VentaLogic.Venta()
+        prov = contVE.GetProvincias()
+
+        return render_template('carrito.html', usuario=user, carrito=len(car), cantidades=car, items=its, precios=prs, subtotal=subtotal, total=total, provincias=prov)
+
+    else:
+        return render_template('index.html')
+
 @app.route('/carrito', methods=["GET", "POST"])
 def carrito():
     car = session['Carrito']
     cantIT = ItemLogic.Item()
-    its = list()
+    its = []
     for c in car:
         it = Tablas.Item()
-        it = cantIT.GetOne(c)
+        it = cantIT.GetOne(c[0])
         its.append(it)
 
     contUS = UsuarioLogic.Usuario()
     id = session['usuario']
     user = contUS.GetOne(id)
+    prs = cantIT.GetPrecios()
 
-    print(its)
-    print(car)
+    subtotal = []
+    for c in car:
+        for p in prs:
+            if c[0] == p[0]:
+                sub = p[2]*c[1]
+                subtotal.append((c[0], sub))
+    total = 0
+    for sub in subtotal:
+        total = total + sub[1]
 
-    return render_template('carrito.html', usuario=user, carrito=len(car), items=its)
+    contVE = VentaLogic.Venta()
+    prov = contVE.GetProvincias()
+
+    return render_template('carrito.html', usuario=user, carrito=len(car), cantidades=car, items=its, precios=prs, subtotal=subtotal, total=total, provincias=prov)
 
 @app.route('/index',methods=["GET","POST"])
 def login():
@@ -515,6 +578,53 @@ def mapTipoItem():
 
         return render_template('confirmar.html', resultTI=ejec, texto = txt)
 
+@app.route('/confirmaVenta', methods=['GET', 'POST'])
+def confirmaVenta():
+    if request.method == 'POST':
+        contUS = UsuarioLogic.Usuario()
+        contVE = VentaLogic.Venta()
+        id = session['usuario']
+        user = contUS.GetOne(id)
+
+        venta = Tablas.Venta()
+        venta.id_usuario = id
+        venta.calle = request.form['calle']
+        venta.id_provincia = request.form['provincia']
+        venta.localidad = request.form['localidad']
+        venta.numero = request.form['nroCalle']
+        venta.nro_tarjeta = request.form['nroTarjeta']
+        venta.titular_tarjeta = request.form['titularTarjeta']
+        if request.form['piso']:
+            venta.piso = request.form['piso']
+        if request.form['dpto']:
+            venta.dpto = request.form['dpto']
+
+        carrito = session['Carrito']
+
+        ejec = contVE.Alta(venta, carrito)
+
+        if ejec:
+            session.pop('Carrito', None)
+            txt = 'realizada'
+        else:
+            txt='error'
+
+        return render_template('confirmar.html', resultIT=ejec, texto = txt)
+
+@app.route('/resumenCompras')
+def resumenCompras():
+    contUS = UsuarioLogic.Usuario()
+    contVE = VentaLogic.Venta()
+    contIT = ItemLogic.Item()
+    id = session['usuario']
+    user = contUS.GetOne(id)
+    venIt = contVE.GetVentaItem()
+    its = contIT.GetAll()
+    cms = contVE.GetCompras(id)
+    
+
+
+    return render_template('resumenCompras.html', compras=cms, items=its, venta_item=venIt, usuario=user)
 
 if __name__ == '__main__':
     app.run(debug=True)

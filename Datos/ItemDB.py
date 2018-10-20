@@ -2,7 +2,7 @@ from sqlalchemy.sql.expression import func
 from sqlalchemy import or_
 from datetime import date
 from Datos import Conexion
-from Datos.Tablas import Item, Artista, Genero, TipoItem, Precio
+from Datos.Tablas import Item, Artista, Genero, TipoItem, Precio, Venta
 
 class DBItem():
     def __init__(self):
@@ -10,7 +10,7 @@ class DBItem():
 
     def GetBuscador(self, texto):
         try:
-            items = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero == Genero.id_genero).join(TipoItem, Item.id_tipo_disco == TipoItem.id_tipo_item).filter(or_(Item.titulo.like("%"+texto+"%"), Artista.nombre_artista.like("%"+texto+"%")))
+            items = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero == Genero.id_genero).join(TipoItem, Item.id_tipo_disco == TipoItem.id_tipo_item).filter(or_(Item.titulo.like("%"+texto+"%"), Artista.nombre_artista.like("%"+texto+"%")), Item.habilitado==True)
             if items.count() == 0:
                 return False
             else:
@@ -42,7 +42,7 @@ class DBItem():
 
     def GetOne(self, idItem):
         try:
-            item = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero==Genero.id_genero).join(TipoItem, Item.id_tipo_disco==TipoItem.id_tipo_item).filter(Item.id_item==idItem).first()
+            item = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero==Genero.id_genero).join(TipoItem, Item.id_tipo_disco==TipoItem.id_tipo_item).filter(Item.id_item==idItem)
             return item
         except:
             return None
@@ -74,6 +74,8 @@ class DBItem():
                     valores_actuales.append([a.id_item, a.vigencia, p.monto])
 
         return valores_actuales
+
+
 
     def Alta(self, item, precio):
         try:
@@ -136,6 +138,23 @@ class DBItem():
         finally:
             self.con.session.close()
 
+    def ActualizarStock(self, carrito):
+        try:
+            for c in carrito:
+                update = self.con.session.query(Item).filter(Item.id_item == c[0]).first()
+                update.stock = update.stock-c[1]
+
+                if update.stock < 1:
+                    update.habilitado = False
+
+                self.con.session.add(update)
+                self.con.session.commit()
+        except Exception as e:
+            self.con.session.rollback()
+            return False
+        finally:
+            self.con.session.close()
+
     def Habilitar(self, idItem):
         try:
             update = self.con.session.query(Item).filter(Item.id_item == idItem).first()
@@ -167,3 +186,4 @@ class DBItem():
             return False
         finally:
             self.con.session.close()
+

@@ -20,7 +20,13 @@
                     <img class="category-image" src="{{ item.url_portada }}" width="140" height="140" />
                         <h5 >{{ item.titulo }}</h5>
                         <h6>{{ item.artista.nombre_artista }}</h6>
-                    <input type="hidden" name="idSelect" id="idSelect" value="{{ item.id_item }}" />
+                        {% for p in precios %}
+                        {% if p[0] == item.id_item %}
+                        <h6>${{ p[2] }}</h6>
+                        {% endif %}
+                        {% endfor %}
+
+                        <input type="hidden" name="idSelect" id="idSelect" value="{{ item.id_item }}" />
                     <input type="submit" value="Ver Producto" class="btn btn-sm btn-danger">
                     </form>
                 </div>

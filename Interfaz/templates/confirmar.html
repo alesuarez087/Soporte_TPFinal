@@ -81,3 +81,17 @@
 </script>
 {% endif %}
 {% endif %}
+
+{% if resultIT %}
+{% if resultIT==True %}
+<script type="text/javascript">
+	alert("Venta {{ texto }} correctamente");
+	window.location.href='/index';
+</script>
+{% else %}
+<script type="text/javascript">
+	alert("Error al ejecutar la petición");
+    window.location.href='/index';
+</script>
+{% endif %}
+{% endif %}

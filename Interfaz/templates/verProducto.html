@@ -10,18 +10,28 @@
 
 </div>
 <div class="container marketing">
-    <form action="agregarCarrito" method="post">
+    <form action="agregarCarrito" method="post" class="needs-validation" novalidate>
         {% for it in item %}
 
                 <div class="card flex-md-row box-shadow ">
-                    <img class="card-img-right flex-auto d-none d-md-block" src="{{ it.url_portada}}" alt="Card image cap" height="200" width="200">
+                    <img class="card-img-right flex-auto d-none d-md-block" src="{{ it.url_portada}}" alt="Card image cap" height="300" width="300">
                     <div class="card-body d-flex flex-column align-items-start">
                         <strong class="d-inline-block mb-2 text-success">{{ it.genero.desc_genero }}</strong>
                         <h3 class="mb-0">
-                            <a class="text-dark" href="#"> {{ it.titulo }}</a>
+                            <a class="text-dark"> {{ it.titulo }}</a>
                         </h3>
                         <div class="mb-1 text-muted">{{ it.artista.nombre_artista }}</div>
                         <p class="card-text mb-auto">Producto: {{ it.tipo.desc_tipo_item}}</p>
+                        {% if precio %} {% for p in precio %}
+                        <p class="card-text mb-auto">Precio: ${{ p[2] }}</p>
+                        {% endfor %} {% endif %}
+                        <div class="sm-2">
+                            Stock: <input type="number" class="form-control form-control-sm" name="cantidad" id="cantidad" min="1" max="{{ it.stock }}" required >
+                            <div class="invalid-feedback">
+                                Ingrese Stock.
+                            </div>
+                        </div>
+                        <br>
                         <input type="hidden" name="idSelect" id="idSelect" value="{{ it.id_item }}" />
                         {% if 'usuario' in session %}
                         <input type="submit" value="Agregar al Carrito" class="btn btn-sm btn-danger">
@@ -35,5 +45,27 @@
         {% endfor %}
     </form>
 </div>
+
+<script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 
 {% endblock %}
