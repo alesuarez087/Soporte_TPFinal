@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Editar Datos</title>
+{% endblock %}
+
+{% block contenido %}
+<div class="container">
+
+    <h3 class="header">Modificar Datos </h3>
+
+    <form class="needs-validation" method="post" action="guardarDatos" novalidate>
+        <div class="mb-3">
+            <label>Nombre de Usuario</label>
+            <input type="text" class="form-control" name="nombreUsuario" id="nombreUsuario" required value="{{ usuario.nombre_usuario }}" disabled readonly >
+        </div>
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="nombre" required value="{{ usuario.nombre }}" >
+            <div class="invalid-feedback">
+                Ingrese Nombre.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Apellido</label>
+            <input type="text" class="form-control" name="apellido" id="apellido" required value="{{ usuario.apellido }}" >
+            <div class="invalid-feedback">
+                Ingrese Apellido
+            </div>
+        </div><div class="mb-3">
+        <label>Email</label>
+        <input type="email" class="form-control" name="email" id="email" required value="{{ usuario.email }}" >
+        <div class="invalid-feedback">
+            Ingrese Email.
+        </div>
+        <div class="mb-3">
+            <label>DNI</label>
+            <input type="number" class="form-control" name="dni" id="dni" required value="{{ usuario.dni }}" >
+            <div class="invalid-feedback">
+                Ingrese Nombre.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Contraseña</label>
+            <input type="password" class="form-control" name="clave" id="clave" required value="{{ usuario.clave }}" >
+            <div class="invalid-feedback">
+                Ingrese Contraseña.
+            </div>
+        </div>
+    </div>
+        <div align="center">
+
+            <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+
+        </div>
+    </form>
+
+    <br>
+</div>
+
+<script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+{% endblock %}

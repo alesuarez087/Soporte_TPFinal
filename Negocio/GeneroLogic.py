@@ -14,6 +14,12 @@ class Genero:
     def GetOne(self, idGenero):
         return self.DataGenero.GetOne(idGenero)
 
+    def GetDuplicidad(self, nombreGenero):
+        if self.DataGenero.GetDuplicidad(nombreGenero) == True:
+            return None
+        else:
+            return True
+
     def Alta(self, genero):
         return self.DataGenero.Alta(genero)
 

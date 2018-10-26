@@ -42,8 +42,20 @@ class DBItem():
 
     def GetOne(self, idItem):
         try:
-            item = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero==Genero.id_genero).join(TipoItem, Item.id_tipo_disco==TipoItem.id_tipo_item).filter(Item.id_item==idItem)
+            item = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero==Genero.id_genero).join(TipoItem, Item.id_tipo_disco==TipoItem.id_tipo_item).filter(Item.id_item==idItem).first()
             return item
+        except:
+            return None
+        finally:
+            self.con.session.close()
+
+    def GetDuplicidad(self, titulo, artista, tipoItem):
+        try:
+            it = self.con.session.query(Item).filter(Item.titulo == titulo, Item.id_artista == artista, Item.id_tipo_disco == tipoItem).first()
+            if it:
+                return True
+            else:
+                return None
         except:
             return None
         finally:

@@ -13,6 +13,12 @@ class Artista():
     def GetOne(self, idArtista):
         return self.DataArtista.GetOne(idArtista)
 
+    def GetDuplicidad(self, nombreArtista):
+        if self.DataArtista.GetDuplicidad(nombreArtista) == True:
+            return None
+        else:
+            return True
+
     def Alta(self, artista):
         return self.DataArtista.Alta(artista)
 

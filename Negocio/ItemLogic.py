@@ -19,6 +19,12 @@ class Item():
     def GetOne(self, idItem):
         return self.DataItem.GetOne(idItem)
 
+    def GetDuplicidad(self, titulo, artista, tipo):
+        if self.DataItem.GetDuplicidad(titulo, artista, tipo) == True:
+            return None
+        else:
+            return True
+
     def GetPrecio(self, idItem):
         return self.DataItem.GetPrecio(idItem)
 

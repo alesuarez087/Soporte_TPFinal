@@ -1,0 +1,169 @@
+{% extends 'base/base.html' %}
+
+{% block titulo %}
+<title>Items</title>
+{% endblock %}
+
+
+
+{% block contenido %}
+
+<div class="container">
+
+    <h3 class="header">Remarcar Item</h3>
+
+
+    <form class="needs-validation" method="post" action="mapRemarcar" novalidate>
+        <div class="mb-3">
+            <label>Id Item</label>
+            <input type="text" class="form-control" name="idItem" id="idItem" {% if item %} value="{{ item.id_item }}"  {% endif %} readonly>
+        </div>
+        <div class="mb-3">
+            <label>Titulo</label>
+            <input type="text" class="form-control" name="titulo" id="titulo" disabled required {% if item %}  value="{{ item.titulo }}"  {% endif %}  readonly >
+            <div class="invalid-feedback">
+                Ingrese Título.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>URL imagen</label>
+            <input type="url" class="form-control" name="url" id="url" disabled required {% if item %} required value="{{ item.url_portada }}"  {% endif %} readonly  >
+            <div class="invalid-feedback">
+                Ingrese URL de imagen
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Artistas</label>
+                <select class="custom-select d-block w-100" id="artista" name="artista" disabled required readonly  >
+                <option value="0">Seleccionar Artista</option>
+                {% for artista in artistas %}
+                <option value="{{ artista.id_artista }}" {% if item %} {% if item.id_artista == artista.id_artista %} selected {% endif %} {% endif %}>{{ artista.nombre_artista }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Año de Lanzamineto</label>
+                <input type="number" class="form-control" name="anioLanzamiento" id="anioLanzamiento" disabled required {% if item %} required value="{{ item.anio_lanzamiento }}"  {% endif %} readonly  >
+                <div class="invalid-feedback">
+                    Ingrese Año de Lanzamiento.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Stock</label>
+                <input type="number" class="form-control" name="stock" id="stock" required {% if item %} required value="{{ item.stock }}"  {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Stock.
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Precio</label>
+                <input type="number" class="form-control" name="precio" id="precio" required {% if precio %} {% for p in precio %}required value="{{ p[2] }}" {% endfor %} {% endif %} >
+                <div class="invalid-feedback">
+                    Ingrese Precio.
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Tipos de Item</label>
+                <select class="custom-select d-block w-100" id="tipoItem" name="tipoItem" disabled required readonly >
+                <option value="0">Seleccionar Tipo de Item</option>
+                {% for tipo in tipos %}
+                <option value="{{ tipo.id_tipo_item }}" {% if item %} {% if item.id_tipo_disco == tipo.id_tipo_item %} selected {% endif %} {% endif %}>{{ tipo.desc_tipo_item }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Genero</label>
+                <select class="custom-select d-block w-100" id="genero" name="genero" disabled readonly  >
+                <option value="0">Seleccionar Género</option>
+                {% for genero in generos %}
+                <option value="{{ genero.id_genero }}" {% if item %} {% if item.id_genero == genero.id_genero %} selected {% endif %} {% endif %}>{{ genero.desc_genero }}</option>
+                {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div align="center">
+            {% if session['Modificar']: %}
+            <input class="btn btn-success" type="submit" value="Modificar" id="event" name="event" />
+            {% elif session['Eliminar']: %}
+            <input class="btn btn-danger" type="submit" value="Eliminar" id="event" name="event" />
+            {% else %}
+            <input class="btn btn-success" type="submit" value="Guardar" id="event" name="event" />
+            {% endif %}
+            <a class="btn btn-primary" href="/items">Cancelar</a>
+        </div>
+    </form>
+</div>
+<br>
+
+<table class="table table-hover" align="center">
+    <thead>
+    <th>ID</th>
+    <th>Título</th>
+    <th>Artista</th>
+    <th>Género</th>
+    <th>Lanzamiento</th>
+    <th>Tipo de Item</th>
+    <th>Stock</th>
+    <th>Precios</th>
+    <th>Habilitado</th>
+    <th></th>
+    </thead>
+    {% if items %}
+    {% for item in items %}
+    <tr>
+        <td>{{ item.id_item }}</td>
+        <td>{{ item.titulo }}</td>
+        <td>{{ item.artista.nombre_artista }}</td>
+        <td>{{ item.genero.desc_genero }}</td>
+        <td>{{ item.anio_lanzamiento }}</td>
+        <td>{{ item.tipo.desc_tipo_item }}</td>
+        <td>{{ item.stock }}</td>
+        {% for p in precios %}
+        {% if p[0] == item.id_item %}
+        <td>${{ p[2] }}</td>
+        {% endif %}
+        {% endfor %}
+        <td><input type="checkbox" readonly disabled {% if item.habilitado == True %} checked {% endif %}></td>
+
+        <form role="form" action="recuperaItemRemarcar" method="post" id="botonera" name="botonera">
+            <td style="vertical-align: middle">
+                <input type="hidden" name="idSelect" id="idSelect" value="{{ item.id_item }}" />
+                <input class="btn btn-success btn-sm" type="submit" value="Remarcar" id="event" name="event" />
+            </td>
+        </form>
+    </tr>
+    {% endfor %}
+    {% endif %}
+
+</table>
+<script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+{% endblock %}

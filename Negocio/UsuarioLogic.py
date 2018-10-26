@@ -11,6 +11,12 @@ class Usuario():
     def GetOne(self, idUsuario):
         return self.DataUsuario.GetOne(idUsuario)
 
+    def GetDuplicidad(self, nombreUsuario):
+        if self.DataUsuario.GetDuplicidad(nombreUsuario) == True:
+            return None
+        else:
+            return True
+
     def Login(self, usuario, contr):
         return self.DataUsuario.Login(usuario, contr)
 

@@ -13,6 +13,12 @@ class TipoItem():
     def GetOne(self, idTipoItem):
         return self.DataTipoItem.GetOne(idTipoItem)
 
+    def GetDuplicidad(self, nombre):
+        if self.DataTipoItem.GetDuplicidad(nombre) == True:
+            return None
+        else:
+            return True
+
     def Alta(self, tipoItem):
         return self.DataTipoItem.Alta(tipoItem)
 

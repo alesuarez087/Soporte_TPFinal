@@ -34,6 +34,18 @@ class DBTipoItem():
         finally:
             self.con.session.close()
 
+    def GetDuplicidad(self, nombreTipo):
+        try:
+            artista = self.con.session.query(Tablas.TipoItem).filter(Tablas.TipoItem.desc_tipo_item == nombreTipo).first()
+            if artista:
+                return True
+            else:
+                return None
+        except:
+            return None
+        finally:
+            self.con.session.close()
+
     def Alta(self, item):
         try:
             self.con.session.add(item)

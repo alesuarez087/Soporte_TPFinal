@@ -11,7 +11,7 @@ class DBArtista():
         try:
             artistas = self.con.session.query(Tablas.Artista).order_by(Tablas.Artista.nombre_artista).all()
             if(len(artistas)==0):
-                return False
+                return None
             else:
                 return artistas
         finally:
@@ -21,7 +21,7 @@ class DBArtista():
         try:
             artistas = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.habilitado == True).order_by(Tablas.Artista.nombre_artista).all()
             if(len(artistas)==0):
-                return False
+                return None
             else:
                 return artistas
         finally:
@@ -36,13 +36,17 @@ class DBArtista():
         finally:
             self.con.session.close()
 
-    def Save(self, artista, state):
-        if state=='Alta':
-            return self.Alta(artista)
-        elif state=='Baja':
-            return self.Baja(artista)
-        elif state=='Modificar':
-            return self.Modificar(artista)
+    def GetDuplicidad(self, nombreArtista):
+        try:
+            artista = self.con.session.query(Tablas.Artista).filter(Tablas.Artista.nombre_artista == nombreArtista).first()
+            if artista:
+                return True
+            else:
+                return None
+        except:
+            return None
+        finally:
+            self.con.session.close()
 
     def Alta(self, artista):
         try:
@@ -67,8 +71,7 @@ class DBArtista():
             return True
         except Exception as e:
             self.con.session.rollback()
-            print(e)
-            return False
+            return None
         finally:
             self.con.session.close()
 
@@ -83,9 +86,8 @@ class DBArtista():
 
             return True
         except Exception as e:
-            print(e)
             self.con.session.rollback()
-            return False
+            return None
         finally:
             self.con.session.close()
 
@@ -101,7 +103,7 @@ class DBArtista():
         except Exception as e:
             print(e)
             self.con.session.rollback()
-            return False
+            return None
         finally:
             self.con.session.close()
 
@@ -115,8 +117,7 @@ class DBArtista():
 
             return True
         except Exception as e:
-            print(e)
             self.con.session.rollback()
-            return False
+            return None
         finally:
             self.con.session.close()

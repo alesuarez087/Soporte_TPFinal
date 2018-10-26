@@ -10,6 +10,7 @@ class DBUsuario():
             return usuario
         except:
             return None
+
         finally:
             self.con.session.close()
 
@@ -37,13 +38,17 @@ class DBUsuario():
         finally:
             self.con.session.close()
 
-    def Save(self, usuario, state):
-        if state=='Alta':
-            return self.Alta(usuario)
-        elif state=='Baja':
-            return self.Baja(usuario)
-        elif state=='Modificar':
-            return self.Modificar(usuario)
+    def GetDuplicidad(self, nombreUsuario):
+        try:
+            artista = self.con.session.query(Usuario).filter(Usuario.nombre_usuario == nombreUsuario).first()
+            if artista:
+                return True
+            else:
+                return None
+        except:
+            return None
+        finally:
+            self.con.session.close()
 
     def Alta(self, usuario):
         try:

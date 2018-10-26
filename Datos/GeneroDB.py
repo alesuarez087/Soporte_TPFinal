@@ -34,13 +34,17 @@ class DBGenero():
         finally:
             self.con.session.close()
 
-    def Save(self, genero, state):
-        if state=='Alta':
-            return self.Alta(genero)
-        elif state=='Baja':
-            return self.Baja(genero)
-        elif state=='Modificar':
-            return self.Modificar(genero)
+    def GetDuplicidad(self, nombreGenero):
+        try:
+            artista = self.con.session.query(Tablas.Genero).filter(Tablas.Genero.desc_genero == nombreGenero).first()
+            if artista:
+                return True
+            else:
+                return None
+        except:
+            return None
+        finally:
+            self.con.session.close()
 
     def Alta(self, genero):
         try:

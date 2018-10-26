@@ -1,14 +1,11 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, json, flash, url_for
+from werkzeug.utils import redirect
+
 from Negocio import ArtistaLogic, ItemLogic, UsuarioLogic, GeneroLogic, TipoItemLogic, VentaLogic
 from Datos import Tablas
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
-"""
-        CONTROLAR BIEN EL ERROR DE USUARIO Y CONTRASEÑA
-"""
-
-
 
 @app.route('/', methods=["GET", "POST"])
 def inicio():
@@ -23,6 +20,57 @@ def inicio():
             return render_template('index.html', usuario=user)
     else:
         return render_template('index.html')
+
+@app.route('/index',methods=["GET","POST"])
+def login():
+    contU = UsuarioLogic.Usuario()
+    contI = ItemLogic.Item()
+    it = contI.GetAll()
+    if request.method=='POST':
+        username = request.form['userLogin']
+        password = request.form['passLogin']
+
+        user = contU.Login(username, password)
+        if user != None:
+            session['usuario'] = user.id_usuario
+            if user.id_tipo_usuario == 1:
+                session['Admin'] = 'Admin'
+            elif user.id_tipo_usuario == 2:
+                session['Empleado'] = 'Empleado'
+            else:
+                session['Usuario'] = 'Usuario'
+                session['Carrito'] = list()
+            return render_template('index.html', usuario=user, items=it, carrito=0)
+        else:
+            flash('Usuario y/o contraseña incorrectos')
+            return render_template('logup.html', usuario=user, items=it, carrito=0)
+    else:
+        if 'usuario' in session:
+            id = session['usuario']
+            user = contU.GetOne(id)
+            return render_template('index.html', usuario=user, items=it)
+        else:
+            return render_template('index.html', items=it)
+
+@app.route('/logout')
+def logout():
+    try:
+        session.pop('usuario', None)
+        session.pop('id_perfil', None)
+        if 'Admin' in session:
+            session.pop('Admin', None)
+        elif 'Usuario' in session:
+            session.pop('Usuario', None)
+        else:
+            session.pop('Empleado', None)
+        if 'Carrito' in session:
+            session.pop('Carrito', None)
+        cont = ItemLogic.Item()
+        it = cont.GetAll()
+        return render_template('index.html', items=it)
+    except Exception as e:
+        txt = format(e)
+        return render_template('error.html', texto = txt)
 
 @app.route('/buscador', methods=["GET", "POST"])
 def buscador():
@@ -162,62 +210,8 @@ def carrito():
 
     return render_template('carrito.html', usuario=user, carrito=len(car), cantidades=car, items=its, precios=prs, subtotal=subtotal, total=total, provincias=prov)
 
-@app.route('/index',methods=["GET","POST"])
-def login():
-    contU = UsuarioLogic.Usuario()
-    contI = ItemLogic.Item()
-    it = contI.GetAll()
-    if request.method=='POST':
-        try:
-            username = request.form['userLogin']
-            password = request.form['passLogin']
-
-            user = contU.Login(username, password)
-            if (user):
-                session['usuario'] = user.id_usuario
-                if user.id_tipo_usuario == 1:
-                    session['Admin'] = 'Admin'
-                elif user.id_tipo_usuario == 2:
-                    session['Empleado'] = 'Empleado'
-                else:
-                    session['Usuario'] = 'Usuario'
-                    session['Carrito'] = list()
-                return render_template('index.html', usuario=user, items=it, carrito=0)
-            else:
-                return print("<script>alert:'Usuario o Contraseña incorrecto'</script>")
-        except Exception as e:
-            txt = format(e)
-            return render_template('error.html', texto = txt)
-    else:
-        if 'usuario' in session:
-            id = session['usuario']
-            user = contU.GetOne(id)
-            return render_template('index.html', usuario=user, items=it)
-        else:
-            return render_template('index.html', items=it)
-
-@app.route('/logout')
-def logout():
-    try:
-        session.pop('usuario', None)
-        session.pop('id_perfil', None)
-        if 'Admin' in session:
-            session.pop('Admin', None)
-        elif 'User' in session:
-            session.pop('Usuario', None)
-        else:
-            session.pop('Empleado', None)
-        cont = ItemLogic.Item()
-        it = cont.GetAll()
-        return render_template('index.html', items=it)
-    except Exception as e:
-        txt = format(e)
-        return render_template('error.html', texto = txt)
-
 @app.route('/artistas')
 def artistas():
-    contIT = ItemLogic.Item()
-    it = contIT.GetAll()
     if 'usuario' in session:
         if 'Modificar' in session:
             session.pop('Modificar', None)
@@ -229,32 +223,42 @@ def artistas():
             art=contAR.GetAll()
             return render_template('artistas.html', usuario=user, artistas=art)
         else:
-            return render_template('index.html', usuario=user, items=it)
+            return render_template('index.html', usuario=user)
     else:
-        return render_template('index.html', items=it)
+        return render_template('index.html')
 
 @app.route('/mapArtista', methods=['GET', 'POST'])
 def mapArtista():
     if request.method == 'POST':
         contAR = ArtistaLogic.Artista()
+
         if 'Modificar' in session:
-            txt = 'modificado'
+            txt = 'Artista modificado con éxito.'
             id = session['Modificar']
             session.pop('Modificar', None)
             artista = contAR.GetOne(id)
         else:
             artista = Tablas.Artista()
-            txt = 'agregado'
+            txt = 'Artista agregado con éxito.'
 
         artista.nombre_artista = request.form['nombreArtista']
         artista.habilitado = True
 
-        if txt=='modificado':
-            ejec = contAR.Modificar(artista)
+        if contAR.GetDuplicidad(artista.nombre_artista) is None:
+            flash('Ese artista ya fue ingresado en la Base de Datos')
         else:
-            ejec=contAR.Alta(artista)
+            if 'Modificar' in session:
+                ejec = contAR.Modificar(artista)
+            else:
+                ejec=contAR.Alta(artista)
 
-        return render_template('confirmar.html', result=ejec, texto = txt)
+            if ejec:
+                flash(txt)
+            else:
+                flash('Error al ejecutar la petición')
+
+        return redirect(url_for('artistas'))
+
 
 @app.route('/recupera', methods=['GET', 'POST'])
 def recupera():
@@ -273,13 +277,17 @@ def recupera():
 
         else:
             if request.form['event'] == 'Habilitar':
-                txt = 'habilitado'
-                ejec=contAR.Habilitar(cod)
-
+                txt = art.nombre_artista +' habilitado correctamente'
+                ejec = contAR.Habilitar(cod)
             elif request.form['event'] == 'Deshabilitar':
-                txt = 'deshabilitado'
-                ejec=contAR.Deshabilitar(cod)
-            return render_template('confirmar.html', result=ejec, texto = txt)
+                txt = art.nombre_artista +' deshabilitado correctamente'
+                ejec = contAR.Deshabilitar(cod)
+
+            if ejec:
+                flash(txt)
+            else:
+                flash('Error al ejecutar la petición')
+            return redirect(url_for('artistas'))
 
 
 @app.route('/generos')
@@ -319,13 +327,17 @@ def recuperaGenero():
 
         else:
             if request.form['event'] == 'Habilitar':
-                txt = 'habilitado'
-                ejec=contGE.Habilitar(cod)
-
+                txt = gen.desc_genero +' habilitado correctamente'
+                ejec = contGE.Habilitar(cod)
             elif request.form['event'] == 'Deshabilitar':
-                txt = 'deshabilitado'
-                ejec=contGE.Deshabilitar(cod)
-            return render_template('confirmar.html', resultGE=ejec, texto = txt)
+                txt = gen.desc_genero +' deshabilitado correctamente'
+                ejec = contGE.Deshabilitar(cod)
+
+            if ejec:
+                flash(txt)
+            else:
+                flash('Error al ejecutar la petición')
+            return redirect(url_for('generos'))
 
 @app.route('/mapGenero', methods=['GET', 'POST'])
 def mapGenero():
@@ -343,12 +355,20 @@ def mapGenero():
         genero.desc_genero = request.form['nombreGenero']
         genero.habilitado = True
 
-        if txt=='modificado':
-            ejec = contGE.Modificar(genero)
+        if contGE.GetDuplicidad(genero.desc_genero) is None:
+            flash('Este género ya fue ingresado en la Base de Datos')
         else:
-            ejec = contGE.Alta(genero)
+            if 'Modificar' in session:
+                ejec = contGE.Modificar(genero)
+            else:
+                ejec=contGE.Alta(genero)
 
-        return render_template('confirmar.html', resultGE=ejec, texto = txt)
+            if ejec:
+                flash(txt)
+            else:
+                flash('Error al ejecutar la petición')
+
+        return redirect(url_for('generos'))
 
 
 @app.route('/usuarios')
@@ -377,54 +397,98 @@ def recuperaUsuario():
         contUS = UsuarioLogic.Usuario()
         cod = request.form['idSelect']
         user = contUS.GetOne(cod)
-
+        id = session['usuario']
+        us = contUS.GetOne(id)
         if request.form['event'] == 'Modificar':
             session['Modificar'] = cod
             users= contUS.GetAll()
-            id = session['usuario']
-            us = contUS.GetOne(id)
             tu = contUS.GetAllTipos()
 
             return render_template('usuarios.html', usuarios=users, usu=user, usuario=us, tipos=tu)
         else:
             if request.form['event'] == 'Habilitar':
-                txt = 'habilitado'
-                ejec=contUS.Habilitar(cod)
-
+                txt = user.nombre_usuario +' habilitado correctamente'
+                ejec = contUS.Habilitar(cod)
             elif request.form['event'] == 'Deshabilitar':
-                txt = 'deshabilitado'
-                ejec=contUS.Deshabilitar(cod)
-            return render_template('confirmar.html', resultUS=ejec, texto = txt)
+                txt = user.nombre_usuario +' deshabilitado correctamente'
+                ejec = contUS.Deshabilitar(cod)
+
+            if ejec:
+                flash(txt)
+            else:
+                flash('Error al ejecutar la petición')
+            return redirect(url_for('usuarios'))
 
 @app.route('/mapUsuario', methods=['GET', 'POST'])
 def mapUsuario():
     if request.method == 'POST':
         contUS = UsuarioLogic.Usuario()
         if 'Modificar' in session:
-            txt = 'modificado'
+            txt = 'Usuario modificado correctamente'
             id = session['Modificar']
             session.pop('Modificar', None)
             user = contUS.GetOne(id)
         else:
-            user = Tablas.Usuario()
-            txt = 'agregado'
+            if contUS.GetDuplicidad(request.form["nombreUsuario"]) is None:
+                flash('Este Nombre de Usuario ya fue registrado. Debe cambiarlo')
+                return redirect(url_for('usuarios'))
+            else:
+                user = Tablas.Usuario()
+                user.nombre_usuario = request.form["nombreUsuario"]
+                txt = 'Usuario agregado correctamente'
 
         user.nombre  = request.form["nombre"]
         user.apellido = request.form["apellido"]
         user.email = request.form["email"]
         user.dni = request.form["dni"]
-        user.nombre_usuario = request.form["nombreUsuario"]
         user.clave = request.form["clave"]
         user.id_tipo_usuario = request.form['tipoUsuario']
         user.habilitado = True
 
-        if txt=='modificado':
+        if 'Modificar' in session:
             ejec = contUS.Modificar(user)
         else:
-            ejec = contUS.Alta(user)
+            ejec=contUS.Alta(user)
 
-        return render_template('confirmar.html', resultUS=ejec, texto = txt)
+        if ejec:
+            flash(txt)
+        else:
+            flash('Error al ejecutar la petición')
 
+        return redirect(url_for('usuarios'))
+
+@app.route('/editarDatos')
+def editarDatos():
+    if 'usuario' in session:
+        contUS = UsuarioLogic.Usuario()
+        id = session['usuario']
+        user = contUS.GetOne(id)
+
+        return render_template('editarDatos.html', usuario=user)
+    else:
+        return render_template('index.html')
+
+@app.route('/guardarDatos', methods=['GET', 'POST'])
+def guardarDatos():
+    if request.method == 'POST':
+        contUS = UsuarioLogic.Usuario()
+        txt = 'Usuario modificado correctamente'
+        id = session['usuario']
+        user = contUS.GetOne(id)
+        user.nombre  = request.form["nombre"]
+        user.apellido = request.form["apellido"]
+        user.email = request.form["email"]
+        user.dni = request.form["dni"]
+        user.clave = request.form["clave"]
+
+        ejec = contUS.Modificar(user)
+
+        if ejec:
+            flash(txt)
+        else:
+            flash('Error al ejecutar la petición')
+
+        return redirect(url_for('editarDatos'))
 
 @app.route('/items')
 def items():
@@ -443,9 +507,9 @@ def items():
             contTI = TipoItemLogic.TipoItem()
             return render_template('items.html', usuario=user, items=it, artistas=contAR.GetHabilitados(), generos=contGE.GetHabilitados(), tipos=contTI.GetHabilitados(), precios=contIT.GetPrecios())
         else:
-            return render_template('index.html', usuario=user, items=it)
+            return render_template('index.html', usuario=user)
     else:
-        return render_template('index.html', items=it)
+        return render_template('index.html')
 
 @app.route('/recuperaItem', methods=['GET', 'POST'])
 def recuperaItem():
@@ -468,35 +532,49 @@ def recuperaItem():
 
             return render_template('items.html', generos=contGE.GetHabilitados(), items=its, item=it, usuario=user, artistas=contAR.GetHabilitados(),  tipos=contTI.GetHabilitados(), precios=contIT.GetPrecios(), precio=contIT.GetPrecio(cod))
         else:
-            if request.form['event'] == 'Habilitar':
-                txt = 'habilitado'
-                ejec=contIT.Habilitar(cod)
 
+            if request.form['event'] == 'Habilitar':
+                for i in it:
+                    if i.stock < 1:
+                        flash('No puede habilitar el item seleccionado, no posee stock disponible. Modifique la cantidad de Stock para poder realizar la habilitación solicitada')
+                        return redirect(url_for('items'))
+                    else:
+                        txt = it.titulo +' habilitado correctamente'
+                        ejec = contIT.Habilitar(cod)
             elif request.form['event'] == 'Deshabilitar':
-                txt = 'deshabilitado'
-                ejec=contIT.Deshabilitar(cod)
-            return render_template('confirmar.html', resultIT=ejec, texto = txt)
+                txt = it.titulo +' deshabilitado correctamente'
+                ejec = contIT.Deshabilitar(cod)
+
+            if ejec:
+                flash(txt)
+            else:
+                flash('Error al ejecutar la petición')
+            return redirect(url_for('items'))
+
 
 @app.route('/mapItem', methods=['GET', 'POST'])
 def mapItem():
     if request.method == 'POST':
         contIT = ItemLogic.Item()
         if 'Modificar' in session:
-            txt = 'modificado'
+            txt = 'Item modificado correctamente'
             id = session['Modificar']
             session.pop('Modificar', None)
             item = contIT.GetOne(id)
         else:
-            item = Tablas.Item()
-            txt = 'agregado'
+            if contIT.GetDuplicidad(request.form['titulo'], request.form['artista'], request.form['tipoItem']) is None:
+                flash('Este item ya fue registrado')
+                return redirect(url_for('items'))
+            else:
+                item = Tablas.Item()
+                txt = 'Item agregado correctamente'
 
         item.id_genero = request.form['genero']
         item.url_portada = request.form['url']
+        item.titulo = request.form['titulo']
         item.id_artista = request.form['artista']
         item.id_tipo_disco = request.form['tipoItem']
-        item.id_genero = request.form['genero']
         item.anio_lanzamiento = request.form['anioLanzamiento']
-        item.titulo = request.form['titulo']
         item.stock = request.form['stock']
         item.habilitado = True
 
@@ -504,16 +582,20 @@ def mapItem():
 
         precio.monto = request.form['precio']
 
-        if txt=='modificado':
+        if 'Modificar' in session:
             ejec = contIT.Modificar(item, precio)
         else:
-            ejec = contIT.Alta(item, precio)
+            ejec=contIT.Alta(item, precio)
 
-        return render_template('confirmar.html', resultIT=ejec, texto = txt)
+        if ejec:
+            flash(txt)
+        else:
+            flash('Error al ejecutar la petición')
 
+        return redirect(url_for('items'))
 
-@app.route('/tiposItem')
-def tiposItem():
+@app.route('/remarcar')
+def remarcar():
     contIT = ItemLogic.Item()
     it = contIT.GetAll()
     if 'usuario' in session:
@@ -522,14 +604,82 @@ def tiposItem():
         contUS = UsuarioLogic.Usuario()
         id = session['usuario']
         user = contUS.GetOne(id)
+
+        if 'Admin' in session:
+            contGE = GeneroLogic.Genero()
+            contAR = ArtistaLogic.Artista()
+            contTI = TipoItemLogic.TipoItem()
+            return render_template('remarcar.html', usuario=user, items=it, artistas=contAR.GetHabilitados(), generos=contGE.GetHabilitados(), tipos=contTI.GetHabilitados(), precios=contIT.GetPrecios())
+        else:
+            return render_template('index.html', usuario=user)
+    else:
+        return render_template('index.html')
+
+@app.route('/recuperaItemRemarcar', methods=['GET', 'POST'])
+def recuperaItemRemarcar():
+    if request.method == 'POST':
+        contGE = GeneroLogic.Genero()
+        contIT = ItemLogic.Item()
+        conUS = UsuarioLogic.Usuario()
+        cod = request.form['idSelect']
+        it = contIT.GetOne(cod)
+
+        if request.form['event'] == 'Remarcar':
+            session['Modificar'] = cod
+
+            id = session['usuario']
+            user = conUS.GetOne(id)
+
+            contAR = ArtistaLogic.Artista()
+            contTI = TipoItemLogic.TipoItem()
+            its = contIT.GetAll()
+
+            return render_template('remarcar.html', generos=contGE.GetHabilitados(), items=its, item=it, usuario=user, artistas=contAR.GetHabilitados(),  tipos=contTI.GetHabilitados(), precios=contIT.GetPrecios(), precio=contIT.GetPrecio(cod))
+
+
+@app.route('/mapRemarcar', methods=['GET', 'POST'])
+def mapRemarcar():
+    if request.method == 'POST':
+        contIT = ItemLogic.Item()
+        if 'Modificar' in session:
+            txt = 'Item modificado correctamente'
+            id = session['Modificar']
+            session.pop('Modificar', None)
+            item = contIT.GetOne(id)
+
+        item.stock = request.form['stock']
+        item.habilitado = True
+
+        precio = Tablas.Precio()
+
+        precio.id_item = item.id_item
+        precio.monto = request.form['precio']
+
+        ejec = contIT.Modificar(item, precio)
+
+        if ejec:
+            flash(txt)
+        else:
+            flash('Error al ejecutar la petición')
+
+        return redirect(url_for('remarcar'))
+
+@app.route('/tiposItem')
+def tiposItem():
+    if 'usuario' in session:
+        contUS = UsuarioLogic.Usuario()
+        id = session['usuario']
+        user = contUS.GetOne(id)
         if 'Admin' in session:
             contTI = TipoItemLogic.TipoItem()
             tsi = contTI.GetAll()
+            if 'Modificar' in session:
+                session.pop('Modificar', None)
             return render_template('tiposItem.html', usuario=user, tipos=tsi)
         else:
-            return render_template('index.html', usuario=user, items=it)
+            return render_template('index.html', usuario=user)
     else:
-        return render_template('index.html', items=it)
+        return render_template('index.html')
 
 @app.route('/recuperaTipoItem', methods=['GET', 'POST'])
 def recuperaTipoItem():
@@ -537,46 +687,58 @@ def recuperaTipoItem():
         contTI = TipoItemLogic.TipoItem()
         conUS = UsuarioLogic.Usuario()
         cod = request.form['idSelect']
+        ti = contTI.GetOne(cod)
 
         if request.form['event'] == 'Modificar':
             session['Modificar'] = cod
-            ti = contTI.GetOne(cod)
             id = session['usuario']
             user = conUS.GetOne(id)
             tsi= contTI.GetAll()
             return render_template('tiposItem.html', tipos=tsi, tipo=ti, usuario=user)
-        else:
-            if request.form['event'] == 'Habilitar':
-                txt = 'habilitado'
-                ejec = contTI.Habilitar(cod)
+        elif request.form['event'] == 'Habilitar':
+            txt = ti.desc_tipo_item +' habilitado correctamente'
+            ejec = contTI.Habilitar(cod)
+        elif request.form['event'] == 'Deshabilitar':
+            txt = ti.desc_tipo_item +' deshabilitado correctamente'
+            ejec = contTI.Deshabilitar(cod)
 
-            elif request.form['event'] == 'Deshabilitar':
-                txt = 'deshabilitado'
-                ejec = contTI.Deshabilitar(cod)
-            return render_template('confirmar.html', resultTI = ejec, texto = txt)
+        if ejec:
+            flash(txt)
+        else:
+            flash('Error al ejecutar la petición')
+        return redirect(url_for('tiposItem'))
 
 @app.route('/mapTipoItem', methods=['GET', 'POST'])
 def mapTipoItem():
     if request.method == 'POST':
         contTI = TipoItemLogic.TipoItem()
         if 'Modificar' in session:
-            txt = 'modificado'
+            txt = 'Tipo de Item modificado correctamente'
             id = session['Modificar']
             session.pop('Modificar', None)
             tipoItem = contTI.GetOne(id)
         else:
-            tipoItem = Tablas.TipoItem()
-            txt = 'agregado'
+            if contTI.GetDuplicidad(request.form['nombreTipoItem']) is None:
+                flash('Este Tipo de Item ya fue registrado')
+                return redirect(url_for('tiposItem'))
+            else:
+                tipoItem = Tablas.TipoItem()
+                txt = 'Tipo de item agregado correctamente'
 
         tipoItem.desc_tipo_item = request.form['nombreTipoItem']
         tipoItem.habilitado = True
 
-        if txt=='modificado':
+        if tipoItem.id_tipo_item:
             ejec = contTI.Modificar(tipoItem)
         else:
             ejec=contTI.Alta(tipoItem)
 
-        return render_template('confirmar.html', resultTI=ejec, texto = txt)
+        if(ejec):
+            flash(txt)
+        else:
+            flash('Error al ejecutar la petición')
+
+        return redirect(url_for('tiposItem'))
 
 @app.route('/confirmaVenta', methods=['GET', 'POST'])
 def confirmaVenta():
@@ -605,11 +767,11 @@ def confirmaVenta():
 
         if ejec:
             session.pop('Carrito', None)
-            txt = 'realizada'
+            flash('Venta realizada con exito')
+            return redirect(url_for('resumenCompras'))
         else:
-            txt='error'
-
-        return render_template('confirmar.html', resultIT=ejec, texto = txt)
+            flash('Error al procesar la venta')
+            return redirect(url_for('carrito'))
 
 @app.route('/resumenCompras')
 def resumenCompras():
