@@ -132,17 +132,15 @@ class DBItem():
             update.url_portada = item.url_portada
 
             self.con.session.add(update)
+
+            pv = self.GetPrecio(item.id_item)
+
+            if float(pv[0][2]) != float(precio.monto):
+                precio.id_item = item.id_item
+                precio.fecha_desde = date.today()
+                self.con.session.add(precio)
+
             self.con.session.commit()
-
-            precio_vigente = self.GetPrecio(item.id_item)
-
-            for pv in precio_vigente:
-                if pv[2] != precio.monto:
-                    precio.id_item = item.id_item
-                    precio.fecha_desde = date.today()
-                    self.con.session.add(precio)
-                    self.con.session.commit()
-
             return True
         except Exception as e:
             self.con.session.rollback()

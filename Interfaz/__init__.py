@@ -235,7 +235,6 @@ def mapArtista():
         if 'Modificar' in session:
             txt = 'Artista modificado con éxito.'
             id = session['Modificar']
-            session.pop('Modificar', None)
             artista = contAR.GetOne(id)
         else:
             artista = Tablas.Artista()
@@ -248,6 +247,7 @@ def mapArtista():
             flash('Ese artista ya fue ingresado en la Base de Datos')
         else:
             if 'Modificar' in session:
+                session.pop('Modificar', None)
                 ejec = contAR.Modificar(artista)
             else:
                 ejec=contAR.Alta(artista)
@@ -346,11 +346,9 @@ def mapGenero():
         if 'Modificar' in session:
             txt = 'modificado'
             id = session['Modificar']
-            session.pop('Modificar', None)
             genero = contGE.GetOne(id)
         else:
             genero = Tablas.Genero()
-            txt = 'agregado'
 
         genero.desc_genero = request.form['nombreGenero']
         genero.habilitado = True
@@ -360,8 +358,11 @@ def mapGenero():
         else:
             if 'Modificar' in session:
                 ejec = contGE.Modificar(genero)
+                session.pop('Modificar', None)
+                txt = 'Género modificado correctamente'
             else:
                 ejec=contGE.Alta(genero)
+                txt = 'Género agregado correctamente'
 
             if ejec:
                 flash(txt)
@@ -426,7 +427,6 @@ def mapUsuario():
         if 'Modificar' in session:
             txt = 'Usuario modificado correctamente'
             id = session['Modificar']
-            session.pop('Modificar', None)
             user = contUS.GetOne(id)
         else:
             if contUS.GetDuplicidad(request.form["nombreUsuario"]) is None:
@@ -447,6 +447,7 @@ def mapUsuario():
 
         if 'Modificar' in session:
             ejec = contUS.Modificar(user)
+            session.pop('Modificar', None)
         else:
             ejec=contUS.Alta(user)
 
@@ -530,17 +531,17 @@ def recuperaItem():
             contTI = TipoItemLogic.TipoItem()
             its = contIT.GetAll()
 
+
             return render_template('items.html', generos=contGE.GetHabilitados(), items=its, item=it, usuario=user, artistas=contAR.GetHabilitados(),  tipos=contTI.GetHabilitados(), precios=contIT.GetPrecios(), precio=contIT.GetPrecio(cod))
         else:
 
             if request.form['event'] == 'Habilitar':
-                for i in it:
-                    if i.stock < 1:
-                        flash('No puede habilitar el item seleccionado, no posee stock disponible. Modifique la cantidad de Stock para poder realizar la habilitación solicitada')
-                        return redirect(url_for('items'))
-                    else:
-                        txt = it.titulo +' habilitado correctamente'
-                        ejec = contIT.Habilitar(cod)
+                if it.stock < 1:
+                    flash('No puede habilitar el item seleccionado, no posee stock disponible. Modifique la cantidad de Stock para poder realizar la habilitación solicitada')
+                    return redirect(url_for('items'))
+                else:
+                    txt = it.titulo +' habilitado correctamente'
+                    ejec = contIT.Habilitar(cod)
             elif request.form['event'] == 'Deshabilitar':
                 txt = it.titulo +' deshabilitado correctamente'
                 ejec = contIT.Deshabilitar(cod)
@@ -559,7 +560,7 @@ def mapItem():
         if 'Modificar' in session:
             txt = 'Item modificado correctamente'
             id = session['Modificar']
-            session.pop('Modificar', None)
+
             item = contIT.GetOne(id)
         else:
             if contIT.GetDuplicidad(request.form['titulo'], request.form['artista'], request.form['tipoItem']) is None:
@@ -583,8 +584,11 @@ def mapItem():
         precio.monto = request.form['precio']
 
         if 'Modificar' in session:
+            print('entré a modificar')
             ejec = contIT.Modificar(item, precio)
+            session.pop('Modificar', None)
         else:
+            print('entrré al alta')
             ejec=contIT.Alta(item, precio)
 
         if ejec:
@@ -605,13 +609,16 @@ def remarcar():
         id = session['usuario']
         user = contUS.GetOne(id)
 
-        if 'Admin' in session:
+        if 'Usuario' in session:
+            return render_template('index.html', usuario=user)
+        else:
             contGE = GeneroLogic.Genero()
             contAR = ArtistaLogic.Artista()
             contTI = TipoItemLogic.TipoItem()
-            return render_template('remarcar.html', usuario=user, items=it, artistas=contAR.GetHabilitados(), generos=contGE.GetHabilitados(), tipos=contTI.GetHabilitados(), precios=contIT.GetPrecios())
-        else:
-            return render_template('index.html', usuario=user)
+            return render_template('remarcar.html', usuario=user, items=it, artistas=contAR.GetHabilitados(),
+                                   generos=contGE.GetHabilitados(), tipos=contTI.GetHabilitados(),
+                                   precios=contIT.GetPrecios())
+
     else:
         return render_template('index.html')
 
@@ -641,11 +648,11 @@ def recuperaItemRemarcar():
 def mapRemarcar():
     if request.method == 'POST':
         contIT = ItemLogic.Item()
-        if 'Modificar' in session:
-            txt = 'Item modificado correctamente'
-            id = session['Modificar']
-            session.pop('Modificar', None)
-            item = contIT.GetOne(id)
+
+        txt = 'Item modificado correctamente'
+        id = session['Modificar']
+        session.pop('Modificar', None)
+        item = contIT.GetOne(id)
 
         item.stock = request.form['stock']
         item.habilitado = True
