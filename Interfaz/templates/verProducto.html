@@ -11,6 +11,7 @@
 </div>
 <div class="container marketing">
     <form action="agregarCarrito" method="post" class="needs-validation" novalidate>
+        {% if item %}
         {% for it in item %}
 
                 <div class="card flex-md-row box-shadow ">
@@ -34,7 +35,9 @@
                         <br>
                         <input type="hidden" name="idSelect" id="idSelect" value="{{ it.id_item }}" />
                         {% if 'usuario' in session %}
+
                         <input type="submit" value="Agregar al Carrito" class="btn btn-sm btn-danger">
+
                         {% else %}
                         <input class="btn btn-sm btn-danger" data-toggle="modal" data-target="#dialogo" value="Agregar al carrito">
                         {% endif %}
@@ -43,6 +46,7 @@
                 </div>
 
         {% endfor %}
+        {% endif %}
     </form>
 </div>
 

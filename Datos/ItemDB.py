@@ -42,7 +42,7 @@ class DBItem():
 
     def GetOne(self, idItem):
         try:
-            item = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero==Genero.id_genero).join(TipoItem, Item.id_tipo_disco==TipoItem.id_tipo_item).filter(Item.id_item==idItem).first()
+            item = self.con.session.query(Item).join(Artista, Item.id_artista == Artista.id_artista).join(Genero, Item.id_genero==Genero.id_genero).join(TipoItem, Item.id_tipo_disco==TipoItem.id_tipo_item).filter(Item.id_item==idItem)
             return item
         except:
             return None

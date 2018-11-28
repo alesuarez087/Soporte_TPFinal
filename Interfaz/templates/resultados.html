@@ -25,9 +25,10 @@
                         <h6>${{ p[2] }}</h6>
                         {% endif %}
                         {% endfor %}
-
+                        {% if 'Usuario' in session %}
                         <input type="hidden" name="idSelect" id="idSelect" value="{{ item.id_item }}" />
                     <input type="submit" value="Ver Producto" class="btn btn-sm btn-danger">
+                        {% endif %}
                     </form>
                 </div>
 

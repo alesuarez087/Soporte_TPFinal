@@ -219,6 +219,7 @@ def artistas():
         id = session['usuario']
         user = contUS.GetOne(id)
         if 'Admin' in session:
+
             contAR = ArtistaLogic.Artista()
             art=contAR.GetAll()
             return render_template('artistas.html', usuario=user, artistas=art)
