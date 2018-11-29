@@ -537,12 +537,11 @@ def recuperaItem():
         else:
 
             if request.form['event'] == 'Habilitar':
-                if it.stock < 1:
-                    flash('No puede habilitar el item seleccionado, no posee stock disponible. Modifique la cantidad de Stock para poder realizar la habilitación solicitada')
-                    return redirect(url_for('items'))
+                ejec = contIT.Habilitar(cod)
+                if ejec:
+                    txt = it.titulo + ' habilitado correctamente'
                 else:
-                    txt = it.titulo +' habilitado correctamente'
-                    ejec = contIT.Habilitar(cod)
+                    txt = 'No puede habilitar el item seleccionado, no posee stock disponible. Modifique la cantidad de Stock para poder realizar la habilitación solicitada'
             elif request.form['event'] == 'Deshabilitar':
                 txt = it.titulo +' deshabilitado correctamente'
                 ejec = contIT.Deshabilitar(cod)

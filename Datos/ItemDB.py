@@ -168,16 +168,18 @@ class DBItem():
     def Habilitar(self, idItem):
         try:
             update = self.con.session.query(Item).filter(Item.id_item == idItem).first()
+            if update.stock > 0:
+                update.habilitado = True
+                self.con.session.add(update)
+                self.con.session.commit()
 
-            update.habilitado = True
-            self.con.session.add(update)
-            self.con.session.commit()
-
-            return True
+                return True
+            else:
+                return False
         except Exception as e:
             print(e)
             self.con.session.rollback()
-            return False
+            return None
         finally:
             self.con.session.close()
 
